@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ExpensecontrolApplication<expensecontrol>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.dgc.expensecontrol.ExpensecontrolApplication",
+            "projectName": "expensecontrol",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
