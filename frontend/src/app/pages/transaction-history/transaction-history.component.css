@@ -1,0 +1,38 @@
+.transaction-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.transaction-title{
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}
+
+.transaction-table{
+    width: 90%; 
+    margin-left: 5%;
+}
+.income{
+    background-color: green;
+}
+.outcome{
+    background-color: red;    
+}
+.outcome > td:nth-child(3){
+    &::before{
+        content: "-";
+    }    
+}
+td{
+    font-size: 1rem;
+    text-align: center; 
+}
+th{    
+    font-size: 1.2rem;
+    font-weight: bold;        
+}
