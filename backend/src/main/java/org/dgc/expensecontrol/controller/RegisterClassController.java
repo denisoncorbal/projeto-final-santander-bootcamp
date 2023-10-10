@@ -3,11 +3,8 @@ package org.dgc.expensecontrol.controller;
 import java.util.List;
 
 import org.dgc.expensecontrol.model.RegisterClass;
-import org.dgc.expensecontrol.model.RegisterUser;
 import org.dgc.expensecontrol.service.ClassService;
-import org.dgc.expensecontrol.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
