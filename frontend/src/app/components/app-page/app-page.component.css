@@ -1,0 +1,15 @@
+.outside-page-container{
+    width: 100vw;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+}
+.inside-page-container{
+    width: 79vw;
+    height: 99vh;
+    border: 1px solid rgba(0,0,0,.5);
+    border-bottom: transparent;
+    
+}

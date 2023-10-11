@@ -1,0 +1,16 @@
+.title-container{
+    width: 100vw;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.title-text{
+    font-size: 2rem;
+    font-weight: bold;
+}
+.title-line{
+    width: 80%;
+    border-bottom: 1px solid black;
+}
