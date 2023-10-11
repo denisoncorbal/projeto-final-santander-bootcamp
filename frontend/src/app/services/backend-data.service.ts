@@ -75,7 +75,12 @@ export class BackendDataService {
   }
   
   // ASSOCIATION  
+  // register to user and class
   associateRegister(registerId: number, userEmail: string, className: string){
-    return this.http.post<Register>(BackendRoutes.ASSOCIATION + "/" + registerId + "?userEmail=" + userEmail + "&className=" + className, this.httpOptions);
+    return this.http.post<Register>(BackendRoutes.ASSOCIATION + "/register/" + registerId + "?userEmail=" + userEmail + "&className=" + className, this.httpOptions);
+  }
+  // user to class
+  associateClass(classId: number, userEmail: string){
+    return this.http.post<Register>(BackendRoutes.ASSOCIATION + "/class/" + classId + "?userEmail=" + userEmail, this.httpOptions);
   }
 }
