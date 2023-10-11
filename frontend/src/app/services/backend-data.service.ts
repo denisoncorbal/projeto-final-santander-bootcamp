@@ -1,24 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterUser } from '../model/register-user';
-import { BackendRoutes } from '../constants/backend-routes';
 import { Observable } from 'rxjs';
+import { BackendRoutes } from '../constants/backend-routes';
+import { RegisterUser } from '../model/register-user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendDataService {
 
-  private headers = {
-    "Content-Type":"application/json"
+  private httpOptions = {
+    headers:
+      new HttpHeaders({
+        "Content-Type":"application/json",
+        //Authorization:"Basic " + btoa("denison.corbal@gmail.com:123456")
+      })    
   };
-
   constructor(private http: HttpClient) { }
 
   // USER
   // create
   createUser(user: RegisterUser): Observable<RegisterUser>{
-    return this.http.post<RegisterUser>(BackendRoutes.USER, JSON.stringify(user), {headers: this.headers});
+    return this.http.post<RegisterUser>(BackendRoutes.USER, JSON.stringify(user), this.httpOptions);
   }
   // read
   readUsers(): Observable<RegisterUser[]>{
