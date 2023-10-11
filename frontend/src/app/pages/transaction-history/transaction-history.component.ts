@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { RegisterUser } from 'src/app/model/register-user';
+import { Component } from '@angular/core';
 import { BackendDataService } from 'src/app/services/backend-data.service';
 
 @Component({
@@ -7,23 +6,8 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
   templateUrl: './transaction-history.component.html',
   styleUrls: ['./transaction-history.component.css']
 })
-export class TransactionHistoryComponent implements OnInit{
+export class TransactionHistoryComponent{
 
-  constructor(private backendService: BackendDataService){}
+  constructor(private backendService: BackendDataService) { }
 
-  private fakeUser: RegisterUser = {
-    firstName: 'Denison',
-    lastName: 'Corbal',
-    email: 'denison.corbal@gmail.com',
-    password: '123456',
-    registers: []
-  };
-
-  ngOnInit(): void {
-      this.backendService.createUser(this.fakeUser).subscribe({
-        next: (value)=>{console.log(value)},
-        error: (error)=>{console.log(error)},
-        complete: ()=>{console.log("Complete")}
-      });
-  }
 }

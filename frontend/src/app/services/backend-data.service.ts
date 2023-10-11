@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BackendRoutes } from '../constants/backend-routes';
+import { Register } from '../model/register';
+import { RegisterClass } from '../model/register-class';
 import { RegisterUser } from '../model/register-user';
 
 @Injectable({
@@ -29,7 +31,7 @@ export class BackendDataService {
   }
   // update
   updateUser(id: number, user: RegisterUser):Observable<RegisterUser>{
-    return this.http.put<RegisterUser>(BackendRoutes.USER + "/" + id, JSON.stringify(user));
+    return this.http.put<RegisterUser>(BackendRoutes.USER + "/" + id, JSON.stringify(user), this.httpOptions);
   }
   // delete
   deleteUser(id: number):Observable<void>{
@@ -38,24 +40,42 @@ export class BackendDataService {
 
   // CLASS
   // create
-  createClass(){}
+  createClass(registerClass: RegisterClass){
+    return this.http.post<RegisterClass>(BackendRoutes.CLASS, JSON.stringify(registerClass), this.httpOptions);
+  }
   // read
-  readClass(){}
+  readClasses(){
+    return this.http.get<RegisterClass[]>(BackendRoutes.CLASS);
+  }
   // update
-  updateClass(){}
+  updateClass(id: number, registerClass: RegisterClass){
+    return this.http.put<RegisterClass>(BackendRoutes.CLASS + "/" + id, JSON.stringify(registerClass), this.httpOptions);
+  }
   // delete
-  deleteClass(){}
+  deleteClass(id: number){
+    return this.http.delete<void>(BackendRoutes.CLASS + "/" + id);
+  }
 
   // REGISTER
   // create
-  createRegister(){}
+  createRegister(register: Register){
+    return this.http.post<RegisterClass>(BackendRoutes.REGISTER, JSON.stringify(register), this.httpOptions);
+  }
   // read
-  readRegister(){}
+  readRegisters(){
+    return this.http.get<RegisterClass[]>(BackendRoutes.REGISTER);
+  }
   // update
-  updateRegister(){}
+  updateRegister(id: number, register: Register){
+    return this.http.put<RegisterClass>(BackendRoutes.REGISTER + "/" + id, JSON.stringify(register), this.httpOptions);
+  }
   // delete
-  deleteRegister(){}
+  deleteRegister(id: number){
+    return this.http.delete<void>(BackendRoutes.REGISTER + "/" + id);
+  }
   
-  // ASSOCIATION
-  associateRegister(){}
+  // ASSOCIATION  
+  associateRegister(registerId: number, userEmail: string, className: string){
+    return this.http.post<Register>(BackendRoutes.ASSOCIATION + "/" + registerId + "?userEmail=" + userEmail + "&className=" + className, this.httpOptions);
+  }
 }
