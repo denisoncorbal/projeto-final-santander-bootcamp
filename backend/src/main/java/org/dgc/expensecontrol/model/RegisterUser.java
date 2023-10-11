@@ -3,7 +3,10 @@ package org.dgc.expensecontrol.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +22,7 @@ public class RegisterUser {
     
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String password;
 
@@ -27,6 +31,7 @@ public class RegisterUser {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
+    @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
 
     public RegisterUser() {
@@ -90,12 +95,12 @@ public class RegisterUser {
         this.registers = transactions;
     }
 
-    public void addTransaction(Register transaction) {
+    public void addRegister(Register transaction) {
         registers.add(transaction);
         transaction.setRegisterUser(this);
     }
 
-    public void removeTransaction(Register transaction){
+    public void removeRegister(Register transaction){
         registers.remove(transaction);
         transaction.setRegisterUser(null);
     }

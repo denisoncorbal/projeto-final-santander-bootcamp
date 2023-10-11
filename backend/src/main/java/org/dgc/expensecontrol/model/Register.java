@@ -22,10 +22,10 @@ public class Register {
     
     private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RegisterUser registerUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RegisterClass registerClass;
 
     public Register() {

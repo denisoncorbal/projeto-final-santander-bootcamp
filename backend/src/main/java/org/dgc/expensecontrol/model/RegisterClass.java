@@ -3,6 +3,9 @@ package org.dgc.expensecontrol.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +19,7 @@ public class RegisterClass {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @OneToMany(
@@ -23,6 +27,7 @@ public class RegisterClass {
         fetch = FetchType.LAZY,
         orphanRemoval = true
     )
+    @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
 
     public RegisterClass() {
@@ -58,12 +63,12 @@ public class RegisterClass {
         this.registers = transactions;
     }
 
-    public void addTransaction(Register transaction){
+    public void addRegister(Register transaction){
         registers.add(transaction);
         transaction.setRegisterClass(this);
     }
 
-    public void removeTransaction(Register transaction){
+    public void removeRegister(Register transaction){
         registers.remove(transaction);
         transaction.setRegisterClass(null);
     }
