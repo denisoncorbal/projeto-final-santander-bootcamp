@@ -59,15 +59,15 @@ export class BackendDataService {
   // REGISTER
   // create
   createRegister(register: Register){
-    return this.http.post<RegisterClass>(BackendRoutes.REGISTER, JSON.stringify(register), this.httpOptions);
+    return this.http.post<Register>(BackendRoutes.REGISTER, JSON.stringify(register), this.httpOptions);
   }
   // read
   readRegisters(){
-    return this.http.get<RegisterClass[]>(BackendRoutes.REGISTER);
+    return this.http.get<Register[]>(BackendRoutes.REGISTER);
   }
   // update
   updateRegister(id: number, register: Register){
-    return this.http.put<RegisterClass>(BackendRoutes.REGISTER + "/" + id, JSON.stringify(register), this.httpOptions);
+    return this.http.put<Register>(BackendRoutes.REGISTER + "/" + id, JSON.stringify(register), this.httpOptions);
   }
   // delete
   deleteRegister(id: number){

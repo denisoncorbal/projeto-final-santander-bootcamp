@@ -1,0 +1,66 @@
+.outcome-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.outcome-title{
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}
+
+.outcome-line{
+    width: 95%;
+    border-bottom: 1px solid black;
+}
+
+.outcome-table{
+    width: 90%; 
+    margin-left: 5%;
+}
+.outcome-table > tr{
+    border: 1px solid black;
+}
+.income{
+    background-color: green;
+}
+.outcome{
+    background-color: red;    
+}
+.outcome > td:nth-child(2){
+    &::before{
+        content: "-";
+    }    
+}
+td{
+    font-size: 1rem;
+    text-align: center; 
+}
+th{    
+    font-size: 1.2rem;
+    font-weight: bold;        
+}
+.outcome-title-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.transaction-income{
+    color: green;
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}
+.transaction-outcome{
+    color: red;
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}

@@ -19,17 +19,18 @@ public class SecurityConfiguration {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity
-			.csrf((csrf)->csrf.disable())
-			.cors(Customizer.withDefaults())
-			.authorizeHttpRequests(
-				(authorizeHttpRequests) -> authorizeHttpRequests.anyRequest().permitAll())
-			.sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+				.csrf((csrf) -> csrf.disable())
+				.cors(Customizer.withDefaults())
+				.headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
+				.authorizeHttpRequests(
+						(authorizeHttpRequests) -> authorizeHttpRequests.anyRequest().permitAll())
+				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		return httpSecurity.build();
 	}
 
 	@Bean
-	CorsConfigurationSource corsConfigurationSource(){
+	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
 		configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "PUT", "POST", "DELETE"));
