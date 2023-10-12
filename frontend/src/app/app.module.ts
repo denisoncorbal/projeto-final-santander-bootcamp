@@ -13,6 +13,8 @@ import { AddRegisterComponent } from './pages/add-register/add-register.componen
 import { IncomeHistoryComponent } from './pages/income-history/income-history.component';
 import { OutcomeHistoryComponent } from './pages/outcome-history/outcome-history.component';
 import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { TransactionHistoryComponent } from './pages/transaction-history/transac
     BannerComponent,
     AppTitleComponent,
     AppPageComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

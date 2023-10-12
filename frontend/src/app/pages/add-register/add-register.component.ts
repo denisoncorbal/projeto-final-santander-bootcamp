@@ -11,9 +11,8 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
   styleUrls: ['./add-register.component.css']
 })
 export class AddRegisterComponent implements OnInit{
-  constructor(private backendService: BackendDataService){}  
+  constructor(private backendService: BackendDataService){}    
   
-  @Input()
   registerUser: RegisterUser = {
     firstName: '',
     lastName: '',
@@ -25,12 +24,7 @@ export class AddRegisterComponent implements OnInit{
   @Input()
   registerClass: RegisterClass[] | null = null;
 
-  ngOnInit(): void {
-      this.backendService.readUsers().subscribe({
-        next: (value) => {
-          this.registerUser = value[0];
-        }
-      });
+  ngOnInit(): void {      
       this.backendService.readClasses().subscribe({
         next: (value)=>{
           this.registerClass = value;
