@@ -34,5 +34,9 @@ public class RegisterService {
     public void deleteRegister(Long id) {
         registerRepository.deleteById(id);
     }
+
+    public List<Register> readRegistersByUser(String userEmail){
+        return registerRepository.findAllByRegisterUser_Email(userEmail);
+    }
     
 }

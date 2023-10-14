@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Register } from 'src/app/model/register';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BackendDataService } from 'src/app/services/backend-data.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
 })
 export class TransactionHistoryComponent implements OnInit{
 
-  constructor(private backendService: BackendDataService) { }
+  constructor(private backendService: BackendDataService, private authenticationService: AuthenticationService) { }
   
   registers: Register[] = [];
   balanceValue: number = 0.0;
@@ -17,7 +18,7 @@ export class TransactionHistoryComponent implements OnInit{
   outcomeValue: number = 0.0;
 
   ngOnInit(): void {
-      this.backendService.readRegisters().subscribe({
+      this.backendService.readRegistersByUser(this.authenticationService.getActualEmail()).subscribe({
         next: (value)=>{
           this.registers = value;
           this.calculeteAllBalances();

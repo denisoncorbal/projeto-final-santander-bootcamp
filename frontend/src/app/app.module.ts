@@ -15,6 +15,7 @@ import { OutcomeHistoryComponent } from './pages/outcome-history/outcome-history
 import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AddUserComponent } from './pages/add-user/add-user.component';
+import { AddClassComponent } from './pages/add-class/add-class.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AddUserComponent } from './pages/add-user/add-user.component';
     AppPageComponent,
     FooterComponent,
     LoginComponent,
-    AddUserComponent
+    AddUserComponent,
+    AddClassComponent
   ],
   imports: [
     BrowserModule,

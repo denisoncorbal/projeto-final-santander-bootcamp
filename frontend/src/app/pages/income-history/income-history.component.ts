@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Register } from 'src/app/model/register';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BackendDataService } from 'src/app/services/backend-data.service';
 
 @Component({
@@ -8,13 +9,13 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
   styleUrls: ['./income-history.component.css']
 })
 export class IncomeHistoryComponent {
-  constructor(private backendService: BackendDataService){}
+  constructor(private backendService: BackendDataService, private authenticationService: AuthenticationService){}
 
   registers: Register[] = [];  
   incomeValue: number = 0.0;
 
   ngOnInit(): void {
-      this.backendService.readRegisters().subscribe({
+      this.backendService.readRegistersByUser(this.authenticationService.getActualEmail()).subscribe({
         next: (value)=>{
           this.registers = value.filter((value)=>value.type=='INCOME');
           this.calculeteAllBalances();

@@ -10,12 +10,8 @@
             <select class="add-register-form-item" id="registerType" name="registerTypeSelect" ngModel>
                 <option value="INCOME" selected>Income</option>
                 <option value="OUTCOME" selected>Outcome</option>
-            </select>            
-            <label class="add-register-form-item" for="registerUser">User</label>
-            <select class="add-register-form-item" id="registerUser" name="registerUserSelect" ngModel>
-                <option [ngValue]="registerUser" selected>{{registerUser.email}}</option>
-            </select>
-            <label class="add-register-form-item" for="registerClass">Class</label>
+            </select>                        
+            <label class="add-register-form-item" for="registerClass">Class <button (click)="addClass()">+</button></label>
             <select class="add-register-form-item" id="registerClass" name="registerClassSelect" ngModel>
                 <option *ngFor="let item of registerClass; index as i;" [ngValue]="item">{{item.name}}</option>
             </select>

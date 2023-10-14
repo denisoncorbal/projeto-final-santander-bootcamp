@@ -29,6 +29,9 @@ export class BackendDataService {
   readClasses(){
     return this.http.get<RegisterClass[]>(BackendRoutes.CLASS);
   }
+  readClassesByUser(userEmail: string){
+    return this.http.get<RegisterClass[]>(BackendRoutes.CLASS + "/" + userEmail);
+  }
   // update
   updateClass(id: number, registerClass: RegisterClass){
     return this.http.put<RegisterClass>(BackendRoutes.CLASS + "/" + id, JSON.stringify(registerClass), this.httpOptions);
@@ -46,6 +49,9 @@ export class BackendDataService {
   // read
   readRegisters(){
     return this.http.get<Register[]>(BackendRoutes.REGISTER);
+  }
+  readRegistersByUser(userEmail: string){
+    return this.http.get<Register[]>(BackendRoutes.REGISTER + "/" + userEmail);
   }
   // update
   updateRegister(id: number, register: Register){

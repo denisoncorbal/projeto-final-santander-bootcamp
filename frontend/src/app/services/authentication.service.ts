@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BackendRoutes } from '../constants/backend-routes';
 import { RegisterUser } from '../model/register-user';
 
@@ -40,6 +40,20 @@ export class AuthenticationService {
       return false;
     return true;
   };
+
+  getActualEmail(): string{
+    return this.actualUser.email;
+  }
+
+  logout(){
+    this.actualUser = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      registers: []
+    };
+  }
 
   // USER
   // create
