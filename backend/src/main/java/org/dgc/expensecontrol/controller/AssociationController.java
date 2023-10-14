@@ -3,6 +3,7 @@ package org.dgc.expensecontrol.controller;
 import java.util.Optional;
 
 import org.dgc.expensecontrol.model.Register;
+import org.dgc.expensecontrol.model.RegisterClass;
 import org.dgc.expensecontrol.service.AssociationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +21,17 @@ public class AssociationController {
         this.associationService = associationService;
     }
 
-    @PostMapping("/{registerId}")
+    @PostMapping("/register/{registerId}")
     public ResponseEntity<Register> associateRegister(@PathVariable("registerId") Long registerId, @RequestParam(name = "userEmail") Optional<String> userEmail, @RequestParam(name = "className") Optional<String> className){
         if(userEmail.isPresent() && className.isPresent())
             return ResponseEntity.ok(associationService.associateRegister(registerId, userEmail.get(), className.get()));
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/class/{classId}")
+    public ResponseEntity<RegisterClass> associateRegisterClass(@PathVariable("classId") Long classId, @RequestParam(name = "userEmail") Optional<String> userEmail){
+        if(userEmail.isPresent())
+            return ResponseEntity.ok(associationService.associateRegisterClass(classId, userEmail.get()));
         return ResponseEntity.badRequest().build();
     }
 

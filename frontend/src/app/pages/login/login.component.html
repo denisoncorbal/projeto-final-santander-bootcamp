@@ -1,0 +1,12 @@
+<div class="login-container">
+    <h2 class="login-title">Login</h2>
+    <hr class="login-line"/>
+    <form #f="ngForm" class="login-form" novalidate>        
+            <label class="login-form-item" for="email">Email</label>
+            <input class="login-form-item" type="email" id="email" name="email" ngModel/>
+            <label class="login-form-item" for="password">Password</label>
+            <input class="login-form-item" type="password" id="password" name="password" ngModel/>            
+            <button (click)="login(f)">Login</button><button (click)="createUser(f)">Create</button>
+    </form>
+    
+</div>

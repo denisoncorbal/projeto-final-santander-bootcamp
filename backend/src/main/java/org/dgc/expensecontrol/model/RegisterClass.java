@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -29,6 +30,9 @@ public class RegisterClass {
     )
     @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    private RegisterUser registerUser;
 
     public RegisterClass() {
     }
@@ -71,5 +75,13 @@ public class RegisterClass {
     public void removeRegister(Register transaction){
         registers.remove(transaction);
         transaction.setRegisterClass(null);
+    }
+
+    public RegisterUser getRegisterUser() {
+        return registerUser;
+    }
+
+    public void setRegisterUser(RegisterUser registerUser) {
+        this.registerUser = registerUser;
     }
 }

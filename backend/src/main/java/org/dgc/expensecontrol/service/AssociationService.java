@@ -29,5 +29,12 @@ public class AssociationService {
         registerClass.addRegister(register);
         return registerRepository.save(register);
     }
+
+    public RegisterClass associateRegisterClass(Long classId, String userEmail) {
+        RegisterClass registerClass = classRepository.findById(classId).get();
+        RegisterUser user = userRepository.findByEmail(userEmail).get();
+        user.addClass(registerClass);
+        return classRepository.save(registerClass);
+    }
     
 }
