@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-banner',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent {
+
+  constructor(private authenticationService: AuthenticationService, private router: Router){}
+
+  logout(){
+    this.authenticationService.logout();
+    this.router.navigate(['login']);
+  }
 
 }

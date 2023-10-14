@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
+import { authenticationGuard } from './authentication.guard';
+import { AddClassComponent } from './pages/add-class/add-class.component';
+import { AddRegisterComponent } from './pages/add-register/add-register.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
 import { IncomeHistoryComponent } from './pages/income-history/income-history.component';
+import { LoginComponent } from './pages/login/login.component';
 import { OutcomeHistoryComponent } from './pages/outcome-history/outcome-history.component';
-import { AddIncomeComponent } from './pages/add-income/add-income.component';
-import { AddOutcomeComponent } from './pages/add-outcome/add-outcome.component';
+import { TransactionHistoryComponent } from './pages/transaction-history/transaction-history.component';
 
 const routes: Routes = [
   {path: '', redirectTo: "/transaction-history", pathMatch: 'full'},
-  {path: 'transaction-history', component: TransactionHistoryComponent},
-  {path: 'income-history', component: IncomeHistoryComponent},
-  {path: 'outcome-history', component: OutcomeHistoryComponent},
-  {path: 'add-income', component: AddIncomeComponent},
-  {path: 'add-outcome', component: AddOutcomeComponent},
+  {path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [authenticationGuard]},
+  {path: 'income-history', component: IncomeHistoryComponent, canActivate: [authenticationGuard]},
+  {path: 'outcome-history', component: OutcomeHistoryComponent, canActivate: [authenticationGuard]},
+  {path: 'add-transaction', component: AddRegisterComponent, canActivate: [authenticationGuard]},
+  {path: 'add-user', component: AddUserComponent, canActivate:[authenticationGuard]},
+  {path: 'add-class', component: AddClassComponent, canActivate:[authenticationGuard]},
+  {path: 'login', component: LoginComponent},
 ];
 
 @NgModule({  

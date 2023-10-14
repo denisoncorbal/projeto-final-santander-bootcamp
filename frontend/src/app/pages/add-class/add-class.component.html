@@ -1,0 +1,9 @@
+<div class="add-class-container">
+    <h2 class="add-class-title">Add class</h2>
+    <hr class="add-class-line"/>
+    <form #f="ngForm" class="add-class-form" novalidate>        
+            <label class="add-class-form-item" for="name">Name</label>
+            <input class="add-class-form-item" type="text" id="name" name="name" ngModel/>
+            <button (click)="addClass(f)">Create</button>
+    </form>    
+</div>

@@ -34,6 +34,10 @@ public class RegisterClassController {
     public ResponseEntity<List<RegisterClass>> readClasses(){
         return ResponseEntity.ok(classService.readClasses());
     }
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<List<RegisterClass>> readClassesByUser(@PathVariable(name = "userEmail") String userEmail){
+        return ResponseEntity.ok(classService.readClassesByUser(userEmail));
+    }
     
     //update
     @PutMapping("/{id}")

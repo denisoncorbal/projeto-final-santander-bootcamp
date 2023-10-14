@@ -1,0 +1,29 @@
+.add-class-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.add-class-title{
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}
+.add-class-line{
+    width: 95%;
+    border-bottom: 1px solid black;
+}
+
+.add-class-form{
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    min-height: 80%;
+    margin-left: 5%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+}

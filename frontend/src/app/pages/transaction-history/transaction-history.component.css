@@ -13,9 +13,17 @@
     font-weight: bold;    
 }
 
+.transaction-line{
+    width: 95%;
+    border-bottom: 1px solid black;
+}
+
 .transaction-table{
     width: 90%; 
     margin-left: 5%;
+}
+.transaction-table > tr{
+    border: 1px solid black;
 }
 .income{
     background-color: green;
@@ -23,7 +31,7 @@
 .outcome{
     background-color: red;    
 }
-.outcome > td:nth-child(3){
+.outcome > td:nth-child(2){
     &::before{
         content: "-";
     }    
@@ -35,4 +43,24 @@ td{
 th{    
     font-size: 1.2rem;
     font-weight: bold;        
+}
+.transaction-title-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.transaction-income{
+    color: green;
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
+}
+.transaction-outcome{
+    color: red;
+    margin-top: 1%;
+    margin-left: 1%;
+    font-size: 1.5rem;
+    font-weight: bold;    
 }

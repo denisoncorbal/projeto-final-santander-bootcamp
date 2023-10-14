@@ -1,0 +1,12 @@
+{
+  "bumpFiles": [
+    {
+      "filename": "backend/pom.xml",      
+      "updater": "changelog/updateMaven.js"
+    },
+    {
+      "filename": "frontend/package.json",      
+      "type": "json"
+    }
+  ]
+}

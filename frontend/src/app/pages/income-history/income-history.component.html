@@ -1,1 +1,19 @@
-<p>income-history works!</p>
+<div class="income-container">
+    <div class="income-title-container">
+        <h2 class="income-title">Income history</h2>        
+        <h2 class="transaction-income">Income: {{incomeValue.toFixed(2)}}</h2>        
+    </div>
+    <hr class="income-line"/>
+    <table class="income-table">
+        <tr>            
+            <th>Class</th>
+            <th>Value</th>
+            <th>Actions</th>
+        </tr>        
+        <tr *ngFor="let item of registers; index as i;" class={{item.type.toLowerCase()}}>
+            <td>{{item.registerClass?item.registerClass.name:""}}</td>
+            <td>R$ {{item.registerValue.toFixed(2)}}</td>
+            <td><button (click)="deleteById(i)">Delete</button></td>
+        </tr>
+    </table>
+</div>

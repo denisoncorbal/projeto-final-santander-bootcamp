@@ -32,5 +32,9 @@ public class ClassService {
     public void deleteClass(Long id) {
         classRepository.deleteById(id);
     }
+
+    public List<RegisterClass> readClassesByUser(String userEmail) {
+        return classRepository.findAllByRegisterUser_Email(userEmail);
+    }
     
 }

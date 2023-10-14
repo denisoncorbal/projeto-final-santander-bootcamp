@@ -34,6 +34,14 @@ public class RegisterUser {
     @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
 
+    @OneToMany(
+        mappedBy = "registerUser",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @JsonIgnore
+    private Set<RegisterClass> classes = new HashSet<RegisterClass>();
+
     public RegisterUser() {
     }
 
@@ -75,6 +83,14 @@ public class RegisterUser {
         return email;
     }
 
+    public Set<RegisterClass> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(Set<RegisterClass> classes) {
+        this.classes = classes;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -95,13 +111,23 @@ public class RegisterUser {
         this.registers = transactions;
     }
 
-    public void addRegister(Register transaction) {
-        registers.add(transaction);
-        transaction.setRegisterUser(this);
+    public void addRegister(Register register) {
+        registers.add(register);
+        register.setRegisterUser(this);
     }
 
-    public void removeRegister(Register transaction){
-        registers.remove(transaction);
-        transaction.setRegisterUser(null);
+    public void removeRegister(Register register){
+        registers.remove(register);
+        register.setRegisterUser(null);
+    }
+
+    public void addClass(RegisterClass registerClass) {
+        classes.add(registerClass);
+        registerClass.setRegisterUser(this);
+    }
+
+    public void removeClass(RegisterClass registerClass){
+        classes.remove(registerClass);
+        registerClass.setRegisterUser(this);
     }
 }

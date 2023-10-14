@@ -35,6 +35,11 @@ public class RegisterUserController {
     public ResponseEntity<List<RegisterUser>> readUsers(){
         return ResponseEntity.ok(userService.readUser());
     }
+
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<RegisterUser> readUser(@PathVariable(name = "userEmail") String userEmail){
+        return ResponseEntity.ok(userService.readUser(userEmail));
+    }
     
     //update
     @PutMapping("/{id}")
