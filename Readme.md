@@ -9,6 +9,7 @@ An basic expense control app presented as final project of santander bootcamp by
 - [x] Login and create and display data by user
 - [x] Add class to categorize transactions
 ## Enhacements
+- [ ] Improve precision on money representation
 - [ ] Add history by class
 - [ ] Improve security (sanitize inputs, implements jwt token)
 - [ ] Add error treatment on frontend and backend
