@@ -26,9 +26,57 @@ You can check the changelog [here](https://github.com/denisoncorbal/projeto-fina
 ## UML
 Some diagrams used to design the software.
 ### Class diagram (backend)
-TODO
+``` mermaid
+---
+title: ExpenseControl
+---
+classDiagram
+direction LR
+    RegisterUser "1" *-- "0..n" Register
+    RegisterUser "1" *-- "0..n" RegisterClass
+    Register "0..n" o-- "1" RegisterClass
+    class Register{
+      -Long id
+      -LocalDate date
+      -BigDecimal registerValue
+    }
+    class RegisterClass{
+      -Long id
+      -String name
+    }
+    class RegisterUser{
+      -Long id
+      -String email
+      -String password
+    }
+```
 ### Entity relation diagram (backend)
-TODO
+``` mermaid
+---
+title: ExpenseControl
+---
+erDiagram
+    REGISTER_USER ||--o{ REGISTER : has
+    REGISTER_USER ||--o{ REGISTER_CLASS : has
+    REGISTER }o..|| REGISTER_CLASS : has
+    REGISTER{
+      Long id PK
+      LocalDate date
+      BigDecimal registerValue
+    }
+    REGISTER_CLASS{
+      Long id PK
+      String name
+      Long registerUserId fk
+    }
+    REGISTER_USER{
+      Long id PK
+      String email
+      String password
+      Long registerUserId fk
+      Long registerClassId fk
+    }
+```
 ## Screens
 Here you can see the look from the software pages.\
 TODO
