@@ -79,4 +79,9 @@ erDiagram
 ```
 ## Screens
 Here you can see the look from the software pages.\
-TODO
+![add-class](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/add-class.png)
+![add-transaction](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/add-transaction.png)
+![income-history](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/income-history.png)
+![login](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/login.png)
+![outcome-history](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/outcome-history.png)
+![transaction-history](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/blob/main/frontend/.screens/transaction-history.png)
