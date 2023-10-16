@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:experimental
 FROM eclipse-temurin:17-jdk-alpine as build
+
 WORKDIR /workspace/app
 
 COPY mvnw .
@@ -8,8 +9,7 @@ COPY pom.xml .
 COPY src src
 RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
 
-COPY target/*.jar target/application.jar
-RUN java -Djarmode=layertools -jar target/application.jar extract --destination target/extracted
+RUN java -Djarmode=layertools -jar target/*.jar extract --destination target/extracted
 
 FROM eclipse-temurin:17-jre-alpine
 RUN addgroup -S demo && adduser -S demo -G demo

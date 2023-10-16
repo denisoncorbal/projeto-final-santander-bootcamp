@@ -8,13 +8,15 @@ RUN npm cache clean --force
 
 COPY . .
 
-RUN npm install --omit=dev
+RUN npm install -g @angular/cli@latest
 
-RUN npm run build --prod
+RUN npm install
+
+RUN npm run build:production
 
 FROM nginx:latest
 
-COPY --from=build /dist/src/app/dist/my-docker-angular-app /usr/share/nginx/html
+COPY --from=build /dist/src/app/dist/expensecontrol /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

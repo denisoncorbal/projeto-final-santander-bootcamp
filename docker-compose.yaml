@@ -1,11 +1,61 @@
 version: '3.8'
 services:
-  backend:
-    build: "./backend"
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: expensecontrol
+      POSTGRES_USER: expensecontrol
+      POSTGRES_DB: expensecontrol
+    hostname: db    
     ports:
-      - "8001:8080"
+      - "5432:5432"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U expensecontrol"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  backend:
+    build: "./backend/Dockerfile"
+    hostname: backend
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+      - frontend
+    environment:
+      - "spring.datasource.url=jdbc:postgresql://db:5432/expensecontrol"
+      - "spring.datasource.username=expensecontrol"
+      - "spring.datasource.password=expensecontrol"
+      - "spring.datasource.driver-class-name=org.postgresql.Driver"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 30s
+      retries: 4
+      start_period: 60s
+      timeout: 30s
+    depends_on:
+      db:
+        condition: service_healthy      
+
   frontend:
     build: "./frontend"
+    hostname: frontend
     ports:
-      - "8000:80"
-    
+      - "4200:80"
+    networks:
+      - frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+
+networks:
+  frontend: 
+    driver: bridge
+  backend: 
+    driver: bridge
