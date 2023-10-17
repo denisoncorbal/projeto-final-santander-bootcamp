@@ -5,23 +5,23 @@ services:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_PASSWORD: expensecontrol
-      POSTGRES_USER: expensecontrol
-      POSTGRES_DB: expensecontrol
+      POSTGRES_PASSWORD: ${PSQL_PWD}
+      POSTGRES_USER: ${PSQL_USR}
+      POSTGRES_DB: ${PSQL_DB}
     hostname: db    
     ports:
       - "5432:5432"
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U expensecontrol"]
+      test: ["CMD-SHELL", "pg_isready -U ${PSQL_USR}"]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 10s
 
   backend:
-    build: "./backend/Dockerfile"
+    build: "./backend"
     hostname: backend
     ports:
       - "8080:8080"
@@ -29,15 +29,15 @@ services:
       - backend
       - frontend
     environment:
-      - "spring.datasource.url=jdbc:postgresql://db:5432/expensecontrol"
-      - "spring.datasource.username=expensecontrol"
-      - "spring.datasource.password=expensecontrol"
+      - "spring.datasource.url=jdbc:postgresql://db:5432/${PSQL_DB}"
+      - "spring.datasource.username=${PSQL_USR}"
+      - "spring.datasource.password=${PSQL_PWD}"
       - "spring.datasource.driver-class-name=org.postgresql.Driver"
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
       interval: 30s
       retries: 4
-      start_period: 60s
+      start_period: 30s
       timeout: 30s
     depends_on:
       db:
