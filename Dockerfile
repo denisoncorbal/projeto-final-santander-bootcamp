@@ -1,3 +1,4 @@
+############## FRONTEND ######################################
 FROM node:lts-alpine AS buildfrontend
 
 WORKDIR /dist/src/app
@@ -13,6 +14,35 @@ RUN npm install -g @angular/cli@latest
 RUN npm install
 
 RUN npm run build:production
+
+#################### BACKEND #########################################################
+FROM eclipse-temurin:17-jdk-alpine as build
+
+WORKDIR /workspace/app
+
+COPY backend/mvnw .
+COPY backend/.mvn .mvn
+COPY backend/pom.xml .
+COPY backend/src src
+COPY --from=buildfrontend /dist/src/app/dist/expensecontrol /workspace/app/src/main/resources/static
+RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+
+RUN java -Djarmode=layertools -jar target/expensecontrol.jar extract --destination target/extracted
+
+FROM eclipse-temurin:17-jre-alpine as buildbackend
+RUN apk --no-cache add curl
+RUN addgroup -S demo && adduser -S demo -G demo
+VOLUME /tmp
+USER demo
+ARG EXTRACTED=/workspace/app/target/extracted
+
+WORKDIR /application
+COPY --from=build ${EXTRACTED}/dependencies/ ./
+COPY --from=build ${EXTRACTED}/spring-boot-loader/ ./
+COPY --from=build ${EXTRACTED}/snapshot-dependencies/ ./
+COPY --from=build ${EXTRACTED}/application/ ./
+
+###################### DEPLOY ##########################################################
 
 FROM alpine:latest
 
@@ -72,13 +102,8 @@ USER root
 
 WORKDIR /application
 
-COPY ./backend /application
-
-COPY --from=buildfrontend /dist/src/app/dist/expensecontrol /application/src/main/resources/static
-
-COPY ./entrypoint_dockerfile.sh /application/entrypoint_dockerfile.sh
+COPY --from=buildbackend /application /application
 
 EXPOSE 8080
 
-#CMD /application/entrypoint_dockerfile.sh
-CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data start";/application/mvnw spring-boot:run -DskipTests=true -Dspring-boot.run.arguments="--spring.main.lazy-initialization=true --spring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} --spring.datasource.username=${PSQL_USR} --spring.datasource.password=${PSQL_PWD} --spring.datasource.driver-class-name=org.postgresql.Driver"
+CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data restart";runuser -l root -c "cd /application && java -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} -Dspring.datasource.username=${PSQL_USR} -Dspring.datasource.password=${PSQL_PWD} -Dspring.datasource.driver-class-name=org.postgresql.Driver org.springframework.boot.loader.JarLauncher"
