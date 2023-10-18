@@ -80,4 +80,5 @@ COPY ./entrypoint_dockerfile.sh /application/entrypoint_dockerfile.sh
 
 EXPOSE 8080
 
-CMD /application/entrypoint_dockerfile.sh
+#CMD /application/entrypoint_dockerfile.sh
+CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data start";/application/mvnw spring-boot:run -DskipTests=true -Dspring-boot.run.arguments="--spring.main.lazy-initialization=true --spring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} --spring.datasource.username=${PSQL_USR} --spring.datasource.password=${PSQL_PWD} --spring.datasource.driver-class-name=org.postgresql.Driver"
