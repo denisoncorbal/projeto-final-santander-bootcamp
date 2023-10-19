@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.0.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v1.0.0...v2.0.0) (2023-10-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* Added functional deploy on back4app
+
+### Features
+
+* added docker-compose ([c415c52](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/c415c52d5f1953b5024c305aca2b9673f10cc920))
+* Added functional deploy on back4app ([3596555](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/3596555493980dd194ea211118559a02d2851403))
+* **back:** add dockerfile ([ce38d68](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/ce38d6843f2fe45d87299392bfcb6b5228f9d9a0))
+* dockerfile for back4app ([79aca98](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/79aca9851636f01773bd890e993a160c6c598d15))
+* **docs:** added screens images to documentation ([e337ce7](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/e337ce73ea4f725c5d22d7c208c701c7b8fa14b1))
+* **docs:** added springdocs backend with swagger ([9a97b12](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/9a97b12a79cf93eeb84bcef646e5215c92499551))
+* **docs:** update Readme.md ([b29ffc0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/b29ffc0739ba28aa0992ff7a09f8bfa3485cd9f6))
+* **docs:** Update Readme.md ([bcf5597](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/bcf5597736635308aeadfd8d3308b71a227e0bc0))
+* **docs:** Update Readme.md ([ae866ea](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/ae866eae820446287c2a9d738cbd40e74f10c4cd))
+* **docs:** Update Readme.md ([70cb0dc](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/70cb0dcabca43a357b6b708940f61566c20222b8))
+* **front:** added dockerfile ([7cb1dcc](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/7cb1dcccf6b75db81c7237357b72ce22ca75983f))
+
+
+### Bug Fixes
+
+* attempt to fix back4app routing ([0edc3ea](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/0edc3ea5f8e2ec4f21357d2c012c80751ecbf55e))
+* attempt to fix deploy back4app ([e868409](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/e868409b19c6095ac93e993c6306447185ebcfaf))
+* attempt to fix dockerfile back4app ([bd48a65](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/bd48a65e7ef6110e525e553e1f61623e2516fa76))
+* attempt to fix mix content back4app ([3c870bf](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/3c870bf68d863a981fd4ac11a2d04d5b0fe71b9c))
+* back4app dockerfile ([baa2dd9](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/baa2dd93dbd8caaea5535774d60bb6cb70f5f358))
+* docker compose and dockerfiles ([614c8ac](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/614c8ac21addf4b8c9ba515058cf52cb452798c9))
+* docker compose and dockerfiles ([68ac70a](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/68ac70a027142348a2fb5039799c6890f4ccd794))
+* dockerfile back4app ([a275b3c](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/a275b3c79c6b794335c849105b4f41b285804ea3))
+
 ## 1.0.0 (2023-10-14)
 
 
