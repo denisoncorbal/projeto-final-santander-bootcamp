@@ -1,5 +1,8 @@
 # About
 An basic expense control app presented as final project of santander bootcamp by Digital Innovation One.
+## Deploy
+Deploy from the fullstack application can be tested on this [site](https://expensecontrol-omptr9n0.b4a.run).\
+The deploy was made on the [Back4App](https://back4app.com) platform.
 ## Stack
 - Frontend: Angular
 - Backend: Spring Boot
