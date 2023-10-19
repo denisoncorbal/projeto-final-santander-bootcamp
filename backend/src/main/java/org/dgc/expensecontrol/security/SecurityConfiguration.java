@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type"));
 		configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "PUT", "POST", "DELETE"));
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:8080", "http://127.0.0.1:8080", "127.0.0.1:8080"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:8080", "http://127.0.0.1:8080", "127.0.0.1:8080", "http://expensecontrol-omptr9n0.b4a.run", "https://expensecontrol-omptr9n0.b4a.run", "http://expensecontrol-omptr9n0.b4a.run:8080", "https://expensecontrol-omptr9n0.b4a.run:8080"));
 		configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
