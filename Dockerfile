@@ -16,16 +16,18 @@ RUN npm install
 RUN npm run build:production
 
 #################### BACKEND #########################################################
-FROM eclipse-temurin:17-jdk-alpine as build
+#FROM eclipse-temurin:17-jdk-alpine as build
+FROM maven:3.9.4-eclipse-temurin-17-alpine as build
 
 WORKDIR /workspace/app
 
-COPY backend/mvnw .
-COPY backend/.mvn .mvn
+#COPY backend/mvnw .
+#COPY backend/.mvn .mvn
 COPY backend/pom.xml .
 COPY backend/src src
 COPY --from=buildfrontend /dist/src/app/dist/expensecontrol /workspace/app/src/main/resources/static
-RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+#RUN --mount=type=cache,target=/root/.m2 ./mvnw install -DskipTests
+RUN mvn install -DskipTests
 
 RUN java -Djarmode=layertools -jar target/expensecontrol.jar extract --destination target/extracted
 
