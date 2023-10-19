@@ -4,7 +4,7 @@ const webProtocol = environment.webProtocol;
 const backendBasePath = environment.backendBasePath;
 const backendPort = environment.backendPort;
 const backendVersion = environment.backendVersion;
-const backendFullPath = webProtocol + backendBasePath + ":" + backendPort + "/api/" + backendVersion;
+const backendFullPath = webProtocol + backendBasePath + backendPort + "/api/" + backendVersion;
 
 export const BackendRoutes = {
     REGISTER: backendFullPath + "/register",
