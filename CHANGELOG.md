@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.1.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v2.0.0...v2.1.0) (2023-10-23)
+
+
+### Features
+
+* added csrf protection ([3591160](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/35911609d535c621ee07ece9451f11cf3e73a028))
+* **back:** upgrade spring boot version to 3.1.5 ([134e889](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/134e88938c6c109d4e3135c0d9b32759f9ad8062))
+
+
+### Bug Fixes
+
+* **front:** fix class creation and association ([7f39997](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/7f399971729f9364ea484e87e90809b135f30f13))
+
 ## [2.0.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v1.0.0...v2.0.0) (2023-10-19)
 
 
