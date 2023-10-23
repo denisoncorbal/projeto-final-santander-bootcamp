@@ -28,7 +28,7 @@ export class AddClassComponent {
       next: (value)=>{
         this.backendService.associateClass(value.id?value.id:-1, this.authenticationService.getActualEmail()).subscribe({
           complete: () =>{
-            this.router.navigate(["add-register"]);
+            this.router.navigate(["add-transaction"]);
           }
         });
       }

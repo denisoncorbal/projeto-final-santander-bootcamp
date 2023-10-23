@@ -8,6 +8,8 @@ import org.dgc.expensecontrol.repository.RegisterRepository;
 import org.dgc.expensecontrol.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AssociationService {
 
@@ -20,7 +22,8 @@ public class AssociationService {
         this.classRepository = classRepository;
         this.registerRepository = registerRepository;
     }
-    
+
+    @Transactional    
     public Register associateRegister(Long registerId, String userEmail, String className) {
         Register register = registerRepository.findById(registerId).get();
         RegisterUser user = userRepository.findByEmail(userEmail).get();
@@ -30,6 +33,7 @@ public class AssociationService {
         return registerRepository.save(register);
     }
 
+    @Transactional
     public RegisterClass associateRegisterClass(Long classId, String userEmail) {
         RegisterClass registerClass = classRepository.findById(classId).get();
         RegisterUser user = userRepository.findByEmail(userEmail).get();
