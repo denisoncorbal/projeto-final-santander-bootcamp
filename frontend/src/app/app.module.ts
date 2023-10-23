@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -16,6 +16,7 @@ import { TransactionHistoryComponent } from './pages/transaction-history/transac
 import { LoginComponent } from './pages/login/login.component';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { AddClassComponent } from './pages/add-class/add-class.component';
+import { CsrfInterceptor } from './interceptors/csrf.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { AddClassComponent } from './pages/add-class/add-class.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
