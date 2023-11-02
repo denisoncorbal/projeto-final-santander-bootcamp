@@ -10,5 +10,6 @@ export const BackendRoutes = {
     REGISTER: backendFullPath + "/register",
     USER: backendFullPath + "/user",
     CLASS: backendFullPath + "/class",
-    ASSOCIATION: backendFullPath + "/association"
+    ASSOCIATION: backendFullPath + "/association",
+    AUTH: backendFullPath + "/auth"
 }

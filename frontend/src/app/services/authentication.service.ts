@@ -9,34 +9,59 @@ import { RegisterUser } from '../model/register-user';
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }
-
-  private httpOptions = {
-    headers:
-      new HttpHeaders({
-        "Content-Type":"application/json",
-        //Authorization:"Basic " + btoa("denison.corbal@gmail.com:123456")
-      })    
-  };
+  constructor(private http: HttpClient) { }  
 
   private actualUser: RegisterUser = {
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    registers: []
+    registers: [],
+    accessToken: '',
+    refreshToken: ''
   };
 
+  private httpOptions = {
+    headers:
+      new HttpHeaders({
+        "Content-Type":"application/json",
+      })    
+  };
+
+  getAccessToken(){
+    return this.actualUser.accessToken || '';
+  }
+
+  getRefreshToken(){
+    return this.actualUser.refreshToken || '';
+  }
+
   tryAthenticate(email: string, password: string){
-    return this.readUser(email).subscribe({
+    this.actualUser.email = email;
+    this.actualUser.password = password;
+    return this.login(this.actualUser).subscribe({
       next: (value)=>{
-        this.actualUser = value;
+        this.actualUser.accessToken = value.accessToken;
+        this.actualUser.refreshToken = value.refreshToken;
       }
     })
   };
 
+  tryRefresh(){
+    return this.refresh().subscribe({
+      next: (user)=>{
+        this.actualUser.accessToken = user.accessToken;
+        this.actualUser.refreshToken = user.refreshToken;
+      },
+      error: (error)=>{
+        this.actualUser.accessToken = '';
+        this.actualUser.refreshToken = '';
+      }
+    })
+  }
+
   isAuthenticated(){
-    if(!this.actualUser.id)
+    if(!this.actualUser.accessToken)
       return false;
     return true;
   };
@@ -51,7 +76,9 @@ export class AuthenticationService {
       lastName: '',
       email: '',
       password: '',
-      registers: []
+      registers: [],
+      accessToken: '',
+      refreshToken: ''
     };
   }
 
@@ -75,5 +102,12 @@ export class AuthenticationService {
   // delete
   private deleteUser(id: number):Observable<void>{
     return this.http.delete<void>(BackendRoutes.USER + "/" + id);
+  }
+  // LOGIN
+  private login(user: RegisterUser): Observable<RegisterUser>{
+    return this.http.post<RegisterUser>(BackendRoutes.AUTH + '/login', JSON.stringify(user), this.httpOptions);
+  }
+  private refresh(): Observable<RegisterUser>{
+    return this.http.post<RegisterUser>(BackendRoutes.AUTH + '/refresh', JSON.stringify(this.actualUser), this.httpOptions);
   }
 }

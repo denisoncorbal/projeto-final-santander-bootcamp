@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CsrfInterceptor } from './csrf.interceptor';
+import { JwtInterceptor } from './jwt.interceptor';
 
-describe('CsrfInterceptor', () => {
+describe('JwtInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      CsrfInterceptor
-      ]
+      JwtInterceptor
+    ]
   }));
 
   it('should be created', () => {
-    const interceptor: CsrfInterceptor = TestBed.inject(CsrfInterceptor);
+    const interceptor: JwtInterceptor = TestBed.inject(JwtInterceptor);
     expect(interceptor).toBeTruthy();
   });
 });

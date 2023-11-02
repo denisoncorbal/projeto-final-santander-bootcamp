@@ -15,9 +15,9 @@ export class BackendDataService {
     headers:
       new HttpHeaders({
         "Content-Type":"application/json",
-        //Authorization:"Basic " + btoa("denison.corbal@gmail.com:123456")
       })    
   };
+
   constructor(private http: HttpClient) { }  
 
   // CLASS

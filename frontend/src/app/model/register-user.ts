@@ -6,5 +6,7 @@ export interface RegisterUser {
     lastName: string,
     email: string,
     password: string,    
-    registers: Register[]
+    registers: Register[],
+    accessToken?: string,
+    refreshToken?: string
 }

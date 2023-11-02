@@ -16,7 +16,7 @@ import { TransactionHistoryComponent } from './pages/transaction-history/transac
 import { LoginComponent } from './pages/login/login.component';
 import { AddUserComponent } from './pages/add-user/add-user.component';
 import { AddClassComponent } from './pages/add-class/add-class.component';
-import { CsrfInterceptor } from './interceptors/csrf.interceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { CsrfInterceptor } from './interceptors/csrf.interceptor';
     FormsModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: CsrfInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
