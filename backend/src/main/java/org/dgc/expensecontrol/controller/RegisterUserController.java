@@ -1,5 +1,7 @@
 package org.dgc.expensecontrol.controller;
 
+import static org.dgc.expensecontrol.security.jwt.role.Role.USER;
+
 import java.util.List;
 
 import org.dgc.expensecontrol.model.RegisterUser;
@@ -39,6 +41,7 @@ public class RegisterUserController {
     }))
     @PostMapping("")
     public ResponseEntity<RegisterUser> createUser(@RequestBody RegisterUser newUser) {
+        newUser.setRole(USER);
         return ResponseEntity.created(null).body(userService.createUser(newUser));
     }
 

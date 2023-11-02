@@ -1,58 +1,62 @@
 package org.dgc.expensecontrol.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.dgc.expensecontrol.security.jwt.role.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class RegisterUser {
+public class RegisterUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String firstName;
     private String lastName;
     @Column(unique = true)
     private String email;
     private String password;
 
-    @OneToMany(
-        mappedBy = "registerUser",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "registerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
 
-    @OneToMany(
-        mappedBy = "registerUser",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "registerUser", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<RegisterClass> classes = new HashSet<RegisterClass>();
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public RegisterUser() {
     }
 
     public RegisterUser(Long id, String firstName, String lastName, String email, String password,
-            Set<Register> transactions) {
+            Set<Register> registers, Set<RegisterClass> classes, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.registers = transactions;
+        this.registers = registers;
+        this.classes = classes;
+        this.role = role;
     }
 
     public Long getId() {
@@ -116,7 +120,7 @@ public class RegisterUser {
         register.setRegisterUser(this);
     }
 
-    public void removeRegister(Register register){
+    public void removeRegister(Register register) {
         registers.remove(register);
         register.setRegisterUser(null);
     }
@@ -126,8 +130,46 @@ public class RegisterUser {
         registerClass.setRegisterUser(this);
     }
 
-    public void removeClass(RegisterClass registerClass){
+    public void removeClass(RegisterClass registerClass) {
         classes.remove(registerClass);
         registerClass.setRegisterUser(this);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

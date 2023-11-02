@@ -32,7 +32,6 @@ services:
       - "spring.datasource.url=jdbc:postgresql://db:5432/${PSQL_DB}"
       - "spring.datasource.username=${PSQL_USR}"
       - "spring.datasource.password=${PSQL_PWD}"
-      - "spring.datasource.driver-class-name=org.postgresql.Driver"
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
       interval: 30s
