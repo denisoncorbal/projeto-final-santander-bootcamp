@@ -68,6 +68,7 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(
 						(authorizeHttpRequests) -> authorizeHttpRequests
 								.requestMatchers(WHITE_LIST_URL).permitAll()
+								.requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
 								.requestMatchers(HttpMethod.GET, "/api/v1/user").hasAnyRole(ADMIN.name(), MANAGER.name())
 								.requestMatchers(HttpMethod.PUT, "/api/v1/user/**").hasAnyRole(ADMIN.name(), MANAGER.name())
 								.requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").hasAnyRole(ADMIN.name(), MANAGER.name())
@@ -80,7 +81,8 @@ public class SecurityConfiguration {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedHeaders(Arrays.asList("Content-Type", "X-XSRF-TOKEN"));
+		configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+		configuration.setAllowCredentials(true);
 		configuration.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "PUT", "POST", "DELETE"));
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:8080",
 				"http://127.0.0.1:8080", "127.0.0.1:8080", "http://expensecontrol-omptr9n0.b4a.run",
