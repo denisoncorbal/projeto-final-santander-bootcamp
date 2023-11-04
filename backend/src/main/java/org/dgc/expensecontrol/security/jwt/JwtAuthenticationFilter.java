@@ -41,11 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     final String authHeader = request.getHeader("Authorization");
-    System.out.println(authHeader);
     final String jwt;    
     final String userEmail;
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-      System.out.println("### sem token ###");
       filterChain.doFilter(request, response);
       return;
     }
@@ -55,24 +53,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       userEmail = jwtService.extractUsername(jwt);
       System.out.println(userEmail);
     } catch (InvalidJwtException e) {
-      System.out.println("não extraiu email");
       throw new ServletException(e.getMessage());
     }
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      System.out.println("tentar autenticar");
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
       var isTokenValid = tokenRepository.findByToken(jwt)
           .map(t -> !t.isExpired() && !t.isRevoked())
           .orElse(false);
       boolean isValid;
-      System.out.println("Token não expirado: " + isTokenValid);
       try {
         isValid = jwtService.isTokenValid(jwt, userDetails);
       } catch (InvalidJwtException e) {
-        // TODO Auto-generated catch block
         throw new ServletException(e.getMessage());
       }
-      System.out.println("Token não invalido: " + isValid);
       if (isValid && isTokenValid) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
             userDetails,
@@ -81,7 +74,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         authToken.setDetails(
             new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
-        System.out.println("Autenticou");
       }
     }
     filterChain.doFilter(request, response);
