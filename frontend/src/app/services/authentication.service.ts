@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { BackendRoutes } from '../constants/backend-routes';
 import { RegisterUser } from '../model/register-user';
 
@@ -9,7 +9,7 @@ import { RegisterUser } from '../model/register-user';
 })
 export class AuthenticationService {
 
-  constructor(private http: HttpClient) { }  
+  constructor(private http: HttpClient) { }
 
   private actualUser: RegisterUser = {
     firstName: '',
@@ -24,53 +24,53 @@ export class AuthenticationService {
   private httpOptions = {
     headers:
       new HttpHeaders({
-        "Content-Type":"application/json",
-      })    
+        "Content-Type": "application/json",
+      })
   };
 
-  getAccessToken(){
+  getAccessToken() {
     return this.actualUser.accessToken || '';
   }
 
-  getRefreshToken(){
+  getRefreshToken() {
     return this.actualUser.refreshToken || '';
   }
 
-  tryAthenticate(email: string, password: string){
+  tryAthenticate(email: string, password: string) {
     this.actualUser.email = email;
     this.actualUser.password = password;
     return this.login(this.actualUser).subscribe({
-      next: (value)=>{
+      next: (value) => {
         this.actualUser.accessToken = value.accessToken;
         this.actualUser.refreshToken = value.refreshToken;
-      }
-    })
-  };
-
-  tryRefresh(){
-    return this.refresh().subscribe({
-      next: (user)=>{
-        this.actualUser.accessToken = user.accessToken;
-        this.actualUser.refreshToken = user.refreshToken;
       },
-      error: (error)=>{
+      error: (error) => {
         this.actualUser.accessToken = '';
         this.actualUser.refreshToken = '';
       }
     })
+  };
+
+  tryRefresh() {
+    return this.refresh();
   }
 
-  isAuthenticated(){
-    if(!this.actualUser.accessToken)
+  isAuthenticated() {
+    if (!this.actualUser.accessToken)
       return false;
     return true;
   };
 
-  getActualEmail(): string{
+  getActualEmail(): string {
     return this.actualUser.email;
   }
 
-  logout(){
+  setTokens(user: RegisterUser): void{
+    this.actualUser.accessToken = user.accessToken;
+    this.actualUser.refreshToken = user.refreshToken;
+  }
+
+  logout() {
     this.actualUser = {
       firstName: '',
       lastName: '',
@@ -84,30 +84,30 @@ export class AuthenticationService {
 
   // USER
   // create
-  createUser(user: RegisterUser): Observable<RegisterUser>{
+  createUser(user: RegisterUser): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(BackendRoutes.USER, JSON.stringify(user), this.httpOptions);
   }
   // readAll
-  private readUsers(): Observable<RegisterUser[]>{
+  private readUsers(): Observable<RegisterUser[]> {
     return this.http.get<RegisterUser[]>(BackendRoutes.USER);
   }
   // read
-  private readUser(email: string){
+  private readUser(email: string) {
     return this.http.get<RegisterUser>(BackendRoutes.USER + "/" + email);
   }
   // update
-  private updateUser(id: number, user: RegisterUser):Observable<RegisterUser>{
+  private updateUser(id: number, user: RegisterUser): Observable<RegisterUser> {
     return this.http.put<RegisterUser>(BackendRoutes.USER + "/" + id, JSON.stringify(user), this.httpOptions);
   }
   // delete
-  private deleteUser(id: number):Observable<void>{
+  private deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(BackendRoutes.USER + "/" + id);
   }
   // LOGIN
-  private login(user: RegisterUser): Observable<RegisterUser>{
+  private login(user: RegisterUser): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(BackendRoutes.AUTH + '/login', JSON.stringify(user), this.httpOptions);
   }
-  private refresh(): Observable<RegisterUser>{
+  private refresh(): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(BackendRoutes.AUTH + '/refresh', JSON.stringify(this.actualUser), this.httpOptions);
   }
 }
