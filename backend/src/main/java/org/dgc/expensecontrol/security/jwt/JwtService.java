@@ -30,8 +30,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-    private final long ACCESS_TOKEN_EXPIRATION = 5;
-    private final long REFRESH_TOKEN_EXPIRATION = 30;
+    private final long ACCESS_TOKEN_EXPIRATION = 1;
+    private final long REFRESH_TOKEN_EXPIRATION = 2;
     private final long NOT_VALID_YET = 0;
     private final String ISSUER = "ExpenseControlBackend";
     private final String AUDIENCE = "ExpenseControlFrontend";
