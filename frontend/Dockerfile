@@ -2,15 +2,15 @@ FROM node:lts-alpine AS build
 
 WORKDIR /dist/src/app
 
-COPY package.json package-lock.json ./
-
 RUN npm cache clean --force
-
-COPY . .
 
 RUN npm install -g @angular/cli@latest
 
+COPY package.json package-lock.json ./
+
 RUN npm install
+
+COPY . .
 
 RUN npm run build:production
 
