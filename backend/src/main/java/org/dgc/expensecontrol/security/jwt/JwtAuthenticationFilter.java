@@ -48,10 +48,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     jwt = authHeader.substring(7);
-    System.out.println(jwt);
     try {
       userEmail = jwtService.extractUsername(jwt);
-      System.out.println(userEmail);
     } catch (InvalidJwtException e) {
       throw new ServletException(e.getMessage());
     }
