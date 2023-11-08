@@ -13,12 +13,26 @@ services:
       - "5432:5432"
     networks:
       - backend
+      - database
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${PSQL_USR}"]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 10s
+
+  dbAdmin:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "8081:80"
+    networks:
+      - database
 
   backend:
     build: "./backend"
@@ -57,4 +71,6 @@ networks:
   frontend: 
     driver: bridge
   backend: 
+    driver: bridge
+  database:
     driver: bridge
