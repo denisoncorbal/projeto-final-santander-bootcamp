@@ -51,6 +51,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 this.tryingRefresh = false;
               }
             });
+            this.tryingRefresh =  false;            
           }
           return next.handle(err);
         })
