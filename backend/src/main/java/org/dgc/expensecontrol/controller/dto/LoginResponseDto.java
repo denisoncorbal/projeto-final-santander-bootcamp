@@ -13,6 +13,11 @@ public class LoginResponseDto {
         this.refreshToken = refreshToken;
     }
 
+    public LoginResponseDto(String... tokens){
+        this.accessToken = tokens[0];
+        this.refreshToken = tokens[1];
+    }
+
     public String getAccessToken() {
         return accessToken;
     }

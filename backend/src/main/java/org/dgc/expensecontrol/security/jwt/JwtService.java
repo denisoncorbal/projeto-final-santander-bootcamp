@@ -25,33 +25,37 @@ import org.jose4j.jwt.consumer.JwtContext;
 import org.jose4j.keys.EllipticCurves;
 import org.jose4j.lang.JoseException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
 
-    private final long ACCESS_TOKEN_EXPIRATION = 1;
-    private final long REFRESH_TOKEN_EXPIRATION = 2;
+    private final long ACCESS_TOKEN_EXPIRATION = 30;
+    private final long REFRESH_TOKEN_EXPIRATION = 480;
     private final long NOT_VALID_YET = 0;
     private final String ISSUER = "ExpenseControlBackend";
     private final String AUDIENCE = "ExpenseControlFrontend";
 
     public final static EllipticCurveJsonWebKey ELLIPTIC_CURVE_JSON_WEB_KEY = getKey();
 
-	private static EllipticCurveJsonWebKey getKey() {
-		try {
-			EllipticCurveJsonWebKey key = EcJwkGenerator.generateJwk(EllipticCurves.P521);
-			key.setKeyId("expensecontrol");
-			return key;
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    private static EllipticCurveJsonWebKey getKey() {
+        try {
+            EllipticCurveJsonWebKey key = EcJwkGenerator.generateJwk(EllipticCurves.P521);
+            key.setKeyId("expensecontrol");
+            return key;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     private TokenRepository tokenRepository;
+    private UserDetailsService userDetailsService;
 
-    public JwtService(TokenRepository tokenRepository){
+    public JwtService(TokenRepository tokenRepository, UserDetailsService userDetailsService) {
         this.tokenRepository = tokenRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     public String extractUsername(String token) throws InvalidJwtException {
@@ -78,7 +82,6 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails) throws JoseException {
         String token = buildToken(extraClaims, userDetails, ACCESS_TOKEN_EXPIRATION);
-        tokenRepository.save(new Token(null, token, TokenType.BEARER, false, false, (RegisterUser) userDetails));
         return token;
     }
 
@@ -115,13 +118,19 @@ public class JwtService {
         jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.ECDSA_USING_P521_CURVE_AND_SHA512);
 
         String token = jws.getCompactSerialization();
-        
+
         return token;
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) throws InvalidJwtException {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    public boolean isTokenValid(String token) throws InvalidJwtException {
+        UserDetails userDetails = userDetailsService
+                .loadUserByUsername(this.extractUsername(token));
+        return isTokenValid(token, userDetails);
     }
 
     private boolean isTokenExpired(String token) throws InvalidJwtException {
@@ -149,5 +158,29 @@ public class JwtService {
 
         JwtContext jwtContext = jwtConsumer.process(token);
         return jwtContext.getJwtClaims();
+    }
+
+    public String[] login(String email) throws JoseException {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        String[] result = { this.generateToken(userDetails), this.generateRefreshToken(userDetails) };
+        return result;
+    }
+
+    public String[] refresh(String refreshToken) throws JoseException, UsernameNotFoundException, InvalidJwtException {
+        String[] result = { "", "" };
+
+        if (this.isTokenValid(refreshToken)) {
+            boolean tokenValidOnDb = tokenRepository.findByToken(refreshToken)
+                    .map(t -> !t.isExpired() && !t.isRevoked())
+                    .orElse(false);
+            if (tokenValidOnDb) {
+                String email = this.extractUsername(refreshToken);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                result[0] = this.generateToken(userDetails);
+                result[1] = this.generateRefreshToken(userDetails);
+            }
+        }
+
+        return result;
     }
 }

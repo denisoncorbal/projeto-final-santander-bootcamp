@@ -8,8 +8,6 @@ import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.lang.JoseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,33 +18,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1/auth")
 public class LoginController {
 
-    private UserDetailsService userDetailsService;
     private JwtService jwtService;
 
-    public LoginController(UserDetailsService userDetailsService, JwtService jwtService) {
-        this.userDetailsService = userDetailsService;
+    public LoginController(JwtService jwtService) {
         this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto user) throws JoseException {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        LoginResponseDto res = new LoginResponseDto(jwtService.generateToken(userDetails),
-                jwtService.generateRefreshToken(userDetails));
-        return ResponseEntity.ok().body(res);
+        return ResponseEntity.ok().body(new LoginResponseDto(jwtService.login(user.getEmail())));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponseDto> refresh(@RequestBody RefreshRequestDto tokens)
             throws UsernameNotFoundException, InvalidJwtException, JoseException {
-        UserDetails userDetails = userDetailsService
-                .loadUserByUsername(jwtService.extractUsername(tokens.getRefreshToken()));
-        
-        if (jwtService.isTokenValid(tokens.getRefreshToken(), userDetails)) {
-            LoginResponseDto res = new LoginResponseDto(jwtService.generateToken(userDetails),
-                    jwtService.generateRefreshToken(userDetails));
-            return ResponseEntity.ok().body(res);
+
+        if (jwtService.isTokenValid(tokens.getRefreshToken())) {
+            return ResponseEntity.ok().body(new LoginResponseDto(jwtService.refresh(tokens.getRefreshToken())));
         }
+
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new LoginResponseDto());
+
     }
 }
