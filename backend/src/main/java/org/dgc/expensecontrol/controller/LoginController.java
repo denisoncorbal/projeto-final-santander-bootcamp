@@ -33,7 +33,6 @@ public class LoginController {
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponseDto> refresh(@RequestBody RefreshRequestDto tokens)
             throws UsernameNotFoundException, InvalidJwtException, JoseException {
-//TODO só criar access e não novo refresh
         if (jwtService.isTokenValid(tokens.getRefreshToken(), TokenType.REFRESH)) {
             return ResponseEntity.ok().body(new LoginResponseDto(jwtService.refresh(tokens.getRefreshToken())));
         }

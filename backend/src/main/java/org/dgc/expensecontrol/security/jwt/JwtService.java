@@ -205,7 +205,7 @@ public class JwtService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     public void invalidateDbExpiredTokens() {
         Logger.getAnonymousLogger().log(Level.SEVERE, "Invalidating DB Tokens");
         tokenRepository.saveAll(tokenRepository
@@ -222,7 +222,7 @@ public class JwtService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 */10 * * * *")
+    @Scheduled(cron = "0 0 1 * * *")
     public void cleanDbExpiredTokens() {
         Logger.getAnonymousLogger().log(Level.SEVERE, "Cleaning invalid tokens");
         tokenRepository
