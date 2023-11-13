@@ -23,14 +23,14 @@ public class Token {
     private String token;
 
     @Enumerated(EnumType.STRING)
-    private TokenType tokenType = TokenType.BEARER;
+    private TokenType tokenType;
 
     private boolean revoked;
 
     private boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="register_user_id")
+    @JoinColumn(name = "register_user_id")
     private RegisterUser user;
 
     public Token() {
@@ -92,7 +92,5 @@ public class Token {
     public void setUser(RegisterUser user) {
         this.user = user;
     }
-
-    
 
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.dgc.expensecontrol.model.RegisterUser;
 import org.dgc.expensecontrol.security.jwt.token.Token;
@@ -24,10 +26,13 @@ import org.jose4j.jwt.consumer.JwtConsumerBuilder;
 import org.jose4j.jwt.consumer.JwtContext;
 import org.jose4j.keys.EllipticCurves;
 import org.jose4j.lang.JoseException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class JwtService {
@@ -88,7 +93,7 @@ public class JwtService {
     public String generateRefreshToken(
             UserDetails userDetails) throws JoseException {
         String token = buildToken(new HashMap<>(), userDetails, REFRESH_TOKEN_EXPIRATION);
-        tokenRepository.save(new Token(null, token, TokenType.BEARER, false, false, (RegisterUser) userDetails));
+        tokenRepository.save(new Token(null, token, TokenType.REFRESH, false, false, (RegisterUser) userDetails));
         return token;
     }
 
@@ -122,15 +127,19 @@ public class JwtService {
         return token;
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) throws InvalidJwtException {
+    public boolean isTokenValid(String token, UserDetails userDetails, TokenType type) throws InvalidJwtException {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        boolean result = (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        if (!result && TokenType.REFRESH.equals(type)) {
+            this.setExpiredRefreshToken(token);
+        }
+        return result;
     }
 
-    public boolean isTokenValid(String token) throws InvalidJwtException {
+    public boolean isTokenValid(String token, TokenType type) throws InvalidJwtException {
         UserDetails userDetails = userDetailsService
                 .loadUserByUsername(this.extractUsername(token));
-        return isTokenValid(token, userDetails);
+        return isTokenValid(token, userDetails, type);
     }
 
     private boolean isTokenExpired(String token) throws InvalidJwtException {
@@ -169,18 +178,54 @@ public class JwtService {
     public String[] refresh(String refreshToken) throws JoseException, UsernameNotFoundException, InvalidJwtException {
         String[] result = { "", "" };
 
-        if (this.isTokenValid(refreshToken)) {
-            boolean tokenValidOnDb = tokenRepository.findByToken(refreshToken)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
+        if (this.isTokenValid(refreshToken, TokenType.REFRESH)) {
+            /*
+             * boolean tokenValidOnDb = tokenRepository.findByToken(refreshToken)
+             * .map(t -> !t.isExpired() && !t.isRevoked())
+             * .orElse(false);
+             */
+            boolean tokenValidOnDb = tokenRepository.findByTokenAndExpiredFalseAndRevokedFalse(refreshToken)
+                    .map(t -> true)
                     .orElse(false);
             if (tokenValidOnDb) {
                 String email = this.extractUsername(refreshToken);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 result[0] = this.generateToken(userDetails);
-                result[1] = this.generateRefreshToken(userDetails);
+                result[1] = refreshToken;
             }
         }
 
         return result;
+    }
+
+    private void setExpiredRefreshToken(String token) {
+        Token t = tokenRepository.findByToken(token).get();
+        t.setExpired(true);
+        tokenRepository.save(t);
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 */10 * * * *")
+    public void invalidateDbExpiredTokens() {
+        Logger.getAnonymousLogger().log(Level.SEVERE, "Invalidating DB Tokens");
+        tokenRepository.saveAll(tokenRepository
+                .findAllByExpiredFalseAndRevokedFalse()
+                .stream().filter(t -> {
+                    try {
+                        this.isTokenValid(t.getToken(), TokenType.REFRESH);
+                    } catch (InvalidJwtException e) {
+                        t.setExpired(true);
+                        return true;
+                    }
+                    return false;
+                }).toList());
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 */10 * * * *")
+    public void cleanDbExpiredTokens() {
+        Logger.getAnonymousLogger().log(Level.SEVERE, "Cleaning invalid tokens");
+        tokenRepository
+                .deleteAllByExpiredTrueOrRevokedTrue();
     }
 }

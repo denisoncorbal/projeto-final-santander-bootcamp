@@ -4,6 +4,7 @@ import org.dgc.expensecontrol.controller.dto.LoginRequestDto;
 import org.dgc.expensecontrol.controller.dto.LoginResponseDto;
 import org.dgc.expensecontrol.controller.dto.RefreshRequestDto;
 import org.dgc.expensecontrol.security.jwt.JwtService;
+import org.dgc.expensecontrol.security.jwt.token.TokenType;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.lang.JoseException;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,8 @@ public class LoginController {
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponseDto> refresh(@RequestBody RefreshRequestDto tokens)
             throws UsernameNotFoundException, InvalidJwtException, JoseException {
-
-        if (jwtService.isTokenValid(tokens.getRefreshToken())) {
+//TODO só criar access e não novo refresh
+        if (jwtService.isTokenValid(tokens.getRefreshToken(), TokenType.REFRESH)) {
             return ResponseEntity.ok().body(new LoginResponseDto(jwtService.refresh(tokens.getRefreshToken())));
         }
 

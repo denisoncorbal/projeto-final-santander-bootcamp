@@ -2,6 +2,7 @@ package org.dgc.expensecontrol.security.jwt;
 
 import java.io.IOException;
 
+import org.dgc.expensecontrol.security.jwt.token.TokenType;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
       boolean isValid;
       try {
-        isValid = jwtService.isTokenValid(jwt, userDetails);
+        isValid = jwtService.isTokenValid(jwt, userDetails, TokenType.ACESS);
       } catch (InvalidJwtException e) {
         throw new ServletException(e.getMessage());
       }
