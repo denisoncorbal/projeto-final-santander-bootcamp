@@ -6,7 +6,7 @@ import { LogLevel } from '../constants/log-level';
 })
 export class LogService {
 
-  level: LogLevel = LogLevel.ALL;
+  level: LogLevel = LogLevel.ERROR;
   logWithDate: boolean = true;
 
   constructor() { }
