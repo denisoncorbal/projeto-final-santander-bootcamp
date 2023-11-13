@@ -11,14 +11,15 @@ The deploy was made on the [Back4App](https://back4app.com) platform.
 - [x] History from transactions with balance and separated by income and outcome
 - [x] Login and create and display data by user
 - [x] Add class to categorize transactions
+- [x] Jwt token (acces and refresh)
+- [x] Add backend api documentation with swagger
 ## Enhacements
 - [ ] Improve precision on money representation
 - [ ] Add history by class
-- [ ] Improve security (sanitize inputs, implements jwt token)
+- [ ] Improve security (sanitize inputs)
 - [ ] Add error treatment on frontend and backend
 - [ ] Add tests
 - [ ] Improve performance (sql queries, page loading)
-- [ ] Add backend api documentation with swagger
 - [ ] Add frontend documentation (jsdoc maybe)
 - [ ] Improve design
 - [ ] Improve responsiveness
