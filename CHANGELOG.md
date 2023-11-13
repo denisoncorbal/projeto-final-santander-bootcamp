@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.2.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v2.1.0...v2.2.0) (2023-11-13)
+
+
+### Features
+
+* added pgadmin image to docker compose ([d950f0a](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/d950f0a75b4c942b0be350f28c7a99483127662a))
+* **back:** basic refresh token implementation ([85e78f0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/85e78f0512eb940977159e0c8955bf25653e4be8))
+* **back:** change csrf to jwt token ([2dec43a](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/2dec43a49d4117cc6bbcea7a91804ed7306a395b))
+* **back:** logout basic implementation ([52b4207](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/52b4207119e1c08eb744ae9bcd70860fbb55801e))
+* **docs:** update on readme ([369059f](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/369059f7e349ff5933c6eb4c367023af927ada76))
+* **front:** added basic logging service ([ad137c5](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/ad137c53272fc1e57070baf9a4f9392b6ad5049f))
+* **front:** basic jwt implementation ([dc32c56](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/dc32c56bafbcd3abe775a9c0920166c4dd639eb3))
+* **front:** jwt token basic implementation ([2354b05](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/2354b0598e14a8ecb97044158b007ba93d075984))
+* **front:** logout basic implementation ([b5e7605](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/b5e7605020be8b42bc6800893f9b413d1f02b384))
+
+
+### Bug Fixes
+
+* **back:** fix on jwt refresh token ([a1ab422](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/a1ab42231009b6a928bfd0ade1d7f0bf917098e9))
+* **back:** fix token validation ([c9d5ce1](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/c9d5ce1e34b793a7cc25aca09865d41e6c5c238a))
+* **back:** fixed sout exposing information ([d0f2648](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/d0f26485786edfd90b0f342c0d0a01b10dbc5c18))
+* **back:** minor fixes on jwt access ([07aa566](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/07aa566c145508f32d8f675ebbfbe7e52a9d6b65))
+* **front:** fix on jwt refresh token ([0cecb28](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/0cecb28f6fcc2f4d621df49ded00e3782ba9480e))
+* **front:** improvement on dockerfile ([50206f1](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/50206f1ade0d0f32bd3641594f10b7c5370079c9))
+* improvement dockerfile back4app ([a53adfc](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/a53adfc8a1f82b46471606529f9bcd9c6b9e29f5))
+
 ## [2.1.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v2.0.0...v2.1.0) (2023-10-23)
 
 
