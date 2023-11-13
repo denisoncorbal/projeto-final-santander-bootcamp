@@ -3,19 +3,19 @@ FROM node:lts-alpine AS buildfrontend
 
 WORKDIR /dist/src/app
 
-COPY ./frontend/package.json ./frontend/package-lock.json ./
-
 RUN npm cache clean --force
 
-COPY ./frontend .
-
 RUN npm install -g @angular/cli@latest
+
+COPY ./frontend/package.json ./frontend/package-lock.json ./
+
+COPY ./frontend .
 
 RUN npm install
 
 RUN npm run build:back4app
 
-#################### BACKEND #########################################################
+#################### BACKEND STAGE 1 ######################################################
 FROM maven:3.9.4-eclipse-temurin-17-alpine as build
 
 WORKDIR /workspace/app
@@ -23,10 +23,12 @@ WORKDIR /workspace/app
 COPY backend/pom.xml .
 COPY backend/src src
 COPY --from=buildfrontend /dist/src/app/dist/expensecontrol /workspace/app/src/main/resources/static
+
 RUN mvn install -DskipTests
 
 RUN java -Djarmode=layertools -jar target/expensecontrol.jar extract --destination target/extracted
 
+#################### BACKEND STAGE 2 ###############################################
 FROM eclipse-temurin:17-jre-alpine as buildbackend
 RUN apk --no-cache add curl
 RUN addgroup -S demo && adduser -S demo -G demo
