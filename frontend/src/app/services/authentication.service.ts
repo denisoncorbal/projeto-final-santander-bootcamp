@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BackendRoutes } from '../constants/backend-routes';
 import { RegisterUser } from '../model/register-user';
 
@@ -65,22 +65,12 @@ export class AuthenticationService {
     return this.actualUser.email;
   }
 
-  setTokens(user: RegisterUser): void{
+  setTokens(user: RegisterUser): void {
     this.actualUser.accessToken = user.accessToken;
     this.actualUser.refreshToken = user.refreshToken;
   }
 
-  logout() {
-    this.actualUser = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      registers: [],
-      accessToken: '',
-      refreshToken: ''
-    };
-  }
+
 
   // USER
   // create
@@ -109,5 +99,21 @@ export class AuthenticationService {
   }
   private refresh(): Observable<RegisterUser> {
     return this.http.post<RegisterUser>(BackendRoutes.AUTH + '/refresh', JSON.stringify(this.actualUser), this.httpOptions);
+  }
+  // LOGOUT
+  private nullUser(): void {
+    this.actualUser = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      registers: [],
+      accessToken: '',
+      refreshToken: ''
+    };
+  }
+  public logout(): Observable<void> {
+    this.nullUser();
+    return this.http.post<void>(BackendRoutes.AUTH + '/logout', JSON.stringify(this.actualUser.refreshToken), this.httpOptions);
   }
 }
