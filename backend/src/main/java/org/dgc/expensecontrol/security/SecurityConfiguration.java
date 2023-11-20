@@ -42,13 +42,20 @@ public class SecurityConfiguration {
 			"/error"
 	};
 
+	private static final String[] STATIC_CONTENT = {
+			"/*.html",
+			"/*.js",
+			"/*.css",
+			"/*.ico"
+	};
+
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final LogoutHandler logoutHandler;
 	private final AuthenticationProvider authenticationProvider;
 
 	public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter,
 			LogoutHandler logoutHandler,
-			AuthenticationProvider authenticationProvider){
+			AuthenticationProvider authenticationProvider) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 		this.logoutHandler = logoutHandler;
 		this.authenticationProvider = authenticationProvider;
@@ -59,7 +66,7 @@ public class SecurityConfiguration {
 		httpSecurity
 				.csrf((csrf) -> csrf.disable())
 				.cors(Customizer.withDefaults())
-				.headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
+				.headers(headers -> headers.frameOptions(Customizer.withDefaults()))
 				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.logout((logout) -> logout.logoutUrl("/api/v1/auth/logout").addLogoutHandler(logoutHandler)
@@ -69,9 +76,13 @@ public class SecurityConfiguration {
 						(authorizeHttpRequests) -> authorizeHttpRequests
 								.requestMatchers(WHITE_LIST_URL).permitAll()
 								.requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
-								.requestMatchers(HttpMethod.GET, "/api/v1/user").hasAnyRole(ADMIN.name(), MANAGER.name())
-								.requestMatchers(HttpMethod.PUT, "/api/v1/user/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-								.requestMatchers(HttpMethod.DELETE, "/api/v1/user/**").hasAnyRole(ADMIN.name(), MANAGER.name())
+								.requestMatchers(HttpMethod.GET, "/api/v1/user")
+								.hasAnyRole(ADMIN.name(), MANAGER.name())
+								.requestMatchers(HttpMethod.PUT, "/api/v1/user/**")
+								.hasAnyRole(ADMIN.name(), MANAGER.name())
+								.requestMatchers(HttpMethod.DELETE, "/api/v1/user/**")
+								.hasAnyRole(ADMIN.name(), MANAGER.name())
+								.requestMatchers(HttpMethod.GET, STATIC_CONTENT).permitAll()
 								.anyRequest().authenticated())
 				.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -94,5 +105,5 @@ public class SecurityConfiguration {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
-	}	
+	}
 }
