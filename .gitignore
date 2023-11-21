@@ -210,4 +210,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Windows Powershell scripts
+*.ps1
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,java,dotenv,maven,angular,test,composer
