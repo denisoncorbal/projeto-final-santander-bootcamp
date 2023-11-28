@@ -1,9 +1,17 @@
 <div class="add-class-container">
     <h2 class="add-class-title">Add class</h2>
-    <hr class="add-class-line"/>
-    <form #f="ngForm" class="add-class-form" (ngSubmit)="addClass(f)" novalidate>        
-            <label class="add-class-form-item" for="name">Name</label>
-            <input class="add-class-form-item" type="text" id="name" name="name" ngModel/>
-            <button type="submit">Create</button>
-    </form>    
+    <hr class="add-class-line" />
+    <form class="add-class-form" (ngSubmit)="addClass()" [formGroup]="formAddClass">
+        <label class="add-class-form-item" for="name">Name</label>
+        <input class="add-class-form-item" type="text" id="name" formControlName="name" />
+        <div class="warning" *ngIf="formAddClass.controls.name.invalid && 
+            (formAddClass.controls.name.dirty || formAddClass.controls.name.touched)">
+            <div *ngIf="formAddClass.controls.name.errors?.['required']">Name is required</div>
+        </div>
+        <button type="submit">Create</button>
+        <button (click)="cancel()">Cancel</button>
+    </form>
+    <app-float-message *ngIf="messageData.showMessage" type="{{messageData.type}}"
+        name="{{messageData.name}}"
+        action="{{messageData.action}}" />
 </div>

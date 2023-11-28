@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
@@ -10,22 +10,47 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class LoginComponent {
 
-  constructor(private router:Router, private authenticationService: AuthenticationService){}
+  constructor(private router: Router, private authenticationService: AuthenticationService, private formBuilder: FormBuilder) { }
 
-  login(f: NgForm){
-    this.authenticationService.tryAthenticate(f.value.email, f.value.password).add(()=>{
+  protected messageData = {
+    name: '',
+    type: '',
+    action: '',
+    showMessage: false
+  };
+
+  protected formLogin = this.formBuilder.group({
+    email: ['', [Validators.email, Validators.required]],
+    password: ['', [Validators.pattern(/^[a-zA-Z0-9]{6,12}$/), Validators.required]]
+  })
+
+  login() {
+    this.authenticationService.tryAthenticate(
+      this.formLogin.controls.email.value!, this.formLogin.controls.password.value!
+    ).add(() => {
       this.router.navigate(['']);
     });
   }
 
-  createUser(f: NgForm){
+  createUser() {
     this.authenticationService.createUser({
       firstName: '',
       lastName: '',
-      email: f.value.email,
-      password: f.value.password,
+      email: this.formLogin.controls.email.value!,
+      password: this.formLogin.controls.password.value!,
       registers: []
-    }).subscribe();
+    }).subscribe({
+      next: () => { this.showMessage('success') },
+      error: () => { this.showMessage('failure') }
+    });
+  }
+
+  showMessage(type: string) {
+    this.messageData.type = type;
+    this.messageData.action = 'create';
+    this.messageData.name = 'user';
+    this.messageData.showMessage = true;
+    setTimeout(() => { this.messageData.showMessage = false }, 3000);
   }
 
 }

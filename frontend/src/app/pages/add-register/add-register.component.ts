@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Register } from 'src/app/model/register';
 import { RegisterClass } from 'src/app/model/register-class';
-import { RegisterUser } from 'src/app/model/register-user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BackendDataService } from 'src/app/services/backend-data.service';
 
@@ -12,36 +11,61 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
   templateUrl: './add-register.component.html',
   styleUrls: ['./add-register.component.css']
 })
-export class AddRegisterComponent implements OnInit{
-  constructor(private backendService: BackendDataService, private authenticationService:AuthenticationService, private router: Router){}    
+export class AddRegisterComponent implements OnInit {
+  constructor(private backendService: BackendDataService, private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder) { }
+
+  protected messageData = {
+    name: '',
+    type: '',
+    action: '',
+    showMessage: false
+  };
+
+  protected formAddRegister = this.formBuilder.group({
+    date: [new Date(), Validators.required],
+    registerValue: [0, Validators.required],
+    registerType: ['', Validators.required],
+    registerClassName: [{} as RegisterClass, Validators.required]
+  })
 
   @Input()
   registerClass: RegisterClass[] | null = null;
 
-  ngOnInit(): void {      
-      this.backendService.readClassesByUser(this.authenticationService.getActualEmail()).subscribe({
-        next: (value)=>{
-          this.registerClass = value;
-        }
-      })
+  ngOnInit(): void {
+    this.backendService.readClassesByUser(this.authenticationService.getActualEmail()).subscribe({
+      next: (value) => {
+        this.registerClass = value;
+      }
+    })
   }
 
-  onSubmit(f: NgForm){        
+  onSubmit() {
     const register: Register = {
-      date: f.value.date,
-      registerValue: f.value.registerValue,
-      type: f.value.registerTypeSelect,
+      date: this.formAddRegister.controls.date.value!,
+      registerValue: this.formAddRegister.controls.registerValue.value!,
+      type: this.formAddRegister.controls.registerType.value!,
       registerUser: null,
       registerClass: null
-    }    
+    }
     this.backendService.createRegister(register).subscribe({
-      next: (value)=>{
-        this.backendService.associateRegister(value.id?value.id:-1, this.authenticationService.getActualEmail(), f.value.registerClassSelect.name).subscribe();
+      next: (value) => {
+        this.backendService.associateRegister(value.id!, this.authenticationService.getActualEmail(), this.formAddRegister.controls.registerClassName.value!.name!).subscribe({
+          next: ()=>{this.showMessage('success')},
+          error: ()=>{this.showMessage('failure')}
+        });
       }
     });
   }
 
-  addClass(){
+  addClass() {
     this.router.navigate(["add-class"]);
+  }
+
+  showMessage(type: string) {
+    this.messageData.type = type;
+    this.messageData.action = 'create';
+    this.messageData.name = 'transaction';
+    this.messageData.showMessage = true;
+    setTimeout(() => { this.messageData.showMessage = false }, 3000);
   }
 }

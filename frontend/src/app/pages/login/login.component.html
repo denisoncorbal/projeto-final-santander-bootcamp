@@ -1,12 +1,27 @@
 <div class="login-container">
     <h2 class="login-title">Login</h2>
-    <hr class="login-line"/>
-    <form #f="ngForm" class="login-form" novalidate>        
-            <label class="login-form-item" for="email">Email</label>
-            <input class="login-form-item" type="email" id="email" name="email" ngModel/>
-            <label class="login-form-item" for="password">Password</label>
-            <input class="login-form-item" type="password" id="password" name="password" ngModel/>            
-            <button (click)="login(f)">Login</button><button (click)="createUser(f)">Create</button>
+    <hr class="login-line" />
+    <form [formGroup]="formLogin" class="login-form">
+        <label class="login-form-item" for="email">Email</label>
+        <input class="login-form-item" type="email" id="email" autocomplete="email" formControlName="email" />
+        <div class="warning" *ngIf="formLogin.controls.email.invalid && 
+            (formLogin.controls.email.dirty || formLogin.controls.email.touched)">
+            <div *ngIf="formLogin.controls.email.errors?.['required']">Email is required</div>
+            <div *ngIf="formLogin.controls.email.errors?.['email']">Input must be an email</div>
+        </div>
+        <label class="login-form-item" for="password">Password</label>
+        <input class="login-form-item" type="password" id="password" formControlName="password" />
+        <div class="warning" *ngIf="formLogin.controls.password.invalid && 
+            (formLogin.controls.password.dirty || formLogin.controls.password.touched)">
+            <div *ngIf="formLogin.controls.password.errors?.['required']">Password is required</div>
+            <div *ngIf="formLogin.controls.password.errors?.['pattern']">Password must have 6 - 12 characters between
+                letters and digits</div>
+        </div>
+        <button [disabled]="!formLogin.valid" (click)="login()">Login</button><button [disabled]="!formLogin.valid"
+            (click)="createUser()">Create</button>
     </form>
-    
+    <app-float-message *ngIf="messageData.showMessage" type="{{messageData.type}}"
+        name="{{messageData.name}}"
+        action="{{messageData.action}}" />
+
 </div>

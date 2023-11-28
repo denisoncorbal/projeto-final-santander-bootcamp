@@ -1,21 +1,24 @@
 <div class="add-register-container">
     <h2 class="add-register-title">Add register</h2>
-    <hr class="add-register-line"/>
-    <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="add-register-form" novalidate>        
-            <label class="add-register-form-item" for="date">Date</label>
-            <input class="add-register-form-item" type="date" id="date" name="date" ngModel/>
-            <label class="add-register-form-item" for="registerValue">Value</label>
-            <input class="add-register-form-item" type="number" id="registerValue" name="registerValue" step=".01" min="0" ngModel/>            
-            <label class="add-register-form-item" for="registerValue">Type</label>
-            <select class="add-register-form-item" id="registerType" name="registerTypeSelect" ngModel>
-                <option value="INCOME" selected>Income</option>
-                <option value="OUTCOME" selected>Outcome</option>
-            </select>                        
-            <label class="add-register-form-item" for="registerClass">Class <button (click)="addClass()">+</button></label>
-            <select class="add-register-form-item" id="registerClass" name="registerClassSelect" ngModel>
-                <option *ngFor="let item of registerClass; index as i;" [ngValue]="item">{{item.name}}</option>
-            </select>
-            <button type="submit">create</button>
+    <hr class="add-register-line" />
+    <form (ngSubmit)="onSubmit()" class="add-register-form" [formGroup]="formAddRegister">
+        <label class="add-register-form-item" for="date">Date</label>
+        <input class="add-register-form-item" type="date" id="date" formControlName="date" />
+        <label class="add-register-form-item" for="registerValue">Value</label>
+        <input class="add-register-form-item" type="number" id="registerValue" step=".01" min="0"
+            formControlName="registerValue" />
+        <label class="add-register-form-item" for="registerValue">Type</label>
+        <select class="add-register-form-item" id="registerType" formControlName="registerType">
+            <option value="INCOME" selected>Income</option>
+            <option value="OUTCOME" selected>Outcome</option>
+        </select>
+        <label class="add-register-form-item" for="registerClass">Class <button (click)="addClass()">+</button></label>
+        <select class="add-register-form-item" id="registerClass" formControlName="registerClassName">
+            <option *ngFor="let item of registerClass; index as i;" [ngValue]="item">{{item.name}}</option>
+        </select>
+        <button type="submit">create</button>
     </form>
-    
+    <app-float-message *ngIf="messageData.showMessage" type="{{messageData.type}}"
+        name="{{messageData.name}}"
+        action="{{messageData.action}}" />
 </div>

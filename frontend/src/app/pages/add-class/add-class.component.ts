@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterClass } from 'src/app/model/register-class';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -12,28 +12,49 @@ import { BackendDataService } from 'src/app/services/backend-data.service';
 })
 export class AddClassComponent {
 
-  constructor(private backendService: BackendDataService, private authenticationService: AuthenticationService, private router: Router){}
+  constructor(private backendService: BackendDataService, private authenticationService: AuthenticationService, private router: Router, private formBuilder: FormBuilder) { }
+
+  protected messageData = {
+    name: '',
+    type: '',
+    action: '',
+    showMessage: false
+  };
+
+  protected formAddClass = this.formBuilder.group({
+    name: ['', Validators.required]
+  })
 
   registerClass: RegisterClass = {
     name: '',
     registers: []
   }
 
-  addClass(f: NgForm){
+  addClass() {
     this.registerClass = {
-      name: f.value.name,
+      name: this.formAddClass.controls.name.value!,
       registers: []
     }
     this.backendService.createClass(this.registerClass).subscribe({
-      next: (value)=>{
-        this.backendService.associateClass(value.id?value.id:-1, this.authenticationService.getActualEmail()).subscribe({
-          complete: () =>{
-            this.router.navigate(["add-transaction"]);
-          }
+      next: (value) => {
+        this.backendService.associateClass(value.id!, this.authenticationService.getActualEmail()).subscribe({
+          next: () => { this.showMessage('success')},
+          error: ()=>{this.showMessage('failure')},
         });
       }
     });
-    
+  }
+
+  cancel(){
+    this.router.navigate(["add-transaction"])
+  }
+
+  showMessage(type: string) {
+    this.messageData.type = type;
+    this.messageData.action = 'create';
+    this.messageData.name = 'class';
+    this.messageData.showMessage = true;
+    setTimeout(() => { this.messageData.showMessage = false }, 3000);
   }
 
 }

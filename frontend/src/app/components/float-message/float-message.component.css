@@ -1,0 +1,32 @@
+.container {    
+    border-radius: 20px;
+    position: fixed;
+    margin: 0;
+    padding: 1%;
+    width: 15vw;
+    height: 5vh;
+    top: calc(100vh - 20vh);
+    left: calc(85vw/2);
+    vertical-align: middle;
+}
+
+.container p{
+    color: white;
+    text-align: center;
+}
+
+.container p::first-letter {
+    text-transform: uppercase;
+}
+
+.container p::after{
+    content: '!';
+}
+
+.success {
+    background-color: green;
+}
+
+.failure {
+    background-color: red;
+}
