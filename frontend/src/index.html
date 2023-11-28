@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Expensecontrol</title>
@@ -8,10 +9,18 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
     style-src 'self' 'nonce-random_nonce_value' https://fonts.googleapis.com; 
     font-src 'self' https://fonts.gstatic.com;
-    script-src 'self' 'nonce-random_nonce_value';">
+    script-src 'self' 'nonce-random_nonce_value';
+    form-action 'none';
+    connect-src 'self' http://localhost:8080;
+    base-uri 'none';
+    object-src 'none';
+    require-trusted-types-for 'script';
+    trusted-types angular angular#bundler">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
   <app-root ngCspNonce="random_nonce_value"></app-root>
 </body>
+
 </html>
