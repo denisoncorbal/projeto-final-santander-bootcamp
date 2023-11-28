@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from "src/environments/environment";
 import { LogLevel } from '../constants/log-level';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { LogLevel } from '../constants/log-level';
 })
 export class LogService {
 
-  level: LogLevel = LogLevel.ERROR;
+  level: LogLevel = environment.logLevel;
   logWithDate: boolean = true;
 
   constructor() { }
