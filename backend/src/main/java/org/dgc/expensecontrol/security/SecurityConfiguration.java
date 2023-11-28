@@ -67,7 +67,9 @@ public class SecurityConfiguration {
 		httpSecurity
 				.csrf((csrf) -> csrf.disable())
 				.cors(Customizer.withDefaults())
-				.headers(headers -> headers.frameOptions(Customizer.withDefaults()))
+				.headers(headers -> headers.frameOptions(Customizer.withDefaults())
+						.contentSecurityPolicy((csp) -> csp.policyDirectives(
+								"default-src 'self'; style-src 'self' 'nonce-random_nonce_value' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'nonce-random_nonce_value'; form-action 'none'; connect-src 'self' http://localhost:8080; base-uri 'self'; object-src 'none'; require-trusted-types-for 'script'; trusted-types angular angular#bundler")))
 				.authenticationProvider(authenticationProvider)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.logout((logout) -> logout.logoutUrl("/api/v1/auth/logout").addLogoutHandler(logoutHandler)
