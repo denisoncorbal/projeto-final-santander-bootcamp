@@ -207,7 +207,7 @@ public class JwtService {
     @Transactional
     @Scheduled(cron = "0 0 1 * * *")
     public void invalidateDbExpiredTokens() {
-        Logger.getAnonymousLogger().log(Level.SEVERE, "Invalidating DB Tokens");
+        Logger.getAnonymousLogger().log(Level.INFO, "Invalidating DB Tokens");
         tokenRepository.saveAll(tokenRepository
                 .findAllByExpiredFalseAndRevokedFalse()
                 .stream().filter(t -> {
@@ -224,7 +224,7 @@ public class JwtService {
     @Transactional
     @Scheduled(cron = "0 0 1 * * *")
     public void cleanDbExpiredTokens() {
-        Logger.getAnonymousLogger().log(Level.SEVERE, "Cleaning invalid tokens");
+        Logger.getAnonymousLogger().log(Level.INFO, "Cleaning invalid tokens");
         tokenRepository
                 .deleteAllByExpiredTrueOrRevokedTrue();
     }
