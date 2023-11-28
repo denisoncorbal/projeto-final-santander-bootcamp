@@ -12,7 +12,7 @@
             <option value="INCOME" selected>Income</option>
             <option value="OUTCOME" selected>Outcome</option>
         </select>
-        <label class="add-register-form-item" for="registerClass">Class <button (click)="addClass()">+</button></label>
+        <label class="add-register-form-item" for="registerClass">Class <button type="button" (click)="addClass()">+</button></label>
         <select class="add-register-form-item" id="registerClass" formControlName="registerClassName">
             <option *ngFor="let item of registerClass; index as i;" [ngValue]="item">{{item.name}}</option>
         </select>

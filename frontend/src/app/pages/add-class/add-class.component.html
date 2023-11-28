@@ -3,15 +3,14 @@
     <hr class="add-class-line" />
     <form class="add-class-form" (ngSubmit)="addClass()" [formGroup]="formAddClass">
         <label class="add-class-form-item" for="name">Name</label>
-        <input class="add-class-form-item" type="text" id="name" formControlName="name" />
+        <input class="add-class-form-item" type="text" id="name" formControlName="name" autocomplete="off" />
         <div class="warning" *ngIf="formAddClass.controls.name.invalid && 
             (formAddClass.controls.name.dirty || formAddClass.controls.name.touched)">
             <div *ngIf="formAddClass.controls.name.errors?.['required']">Name is required</div>
         </div>
         <button type="submit">Create</button>
-        <button (click)="cancel()">Cancel</button>
+        <button type="button" (click)="cancel()">Cancel</button>
     </form>
-    <app-float-message *ngIf="messageData.showMessage" type="{{messageData.type}}"
-        name="{{messageData.name}}"
+    <app-float-message *ngIf="messageData.showMessage" type="{{messageData.type}}" name="{{messageData.name}}"
         action="{{messageData.action}}" />
 </div>
