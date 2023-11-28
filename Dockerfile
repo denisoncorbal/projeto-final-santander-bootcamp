@@ -1,6 +1,10 @@
 ############## FRONTEND ######################################
 FROM node:lts-alpine AS buildfrontend
 
+ARG ANGULAR_ENV
+
+ENV ANGULAR_ENV=$ANGULAR_ENV
+
 WORKDIR /dist/src/app
 
 RUN npm cache clean --force
@@ -13,7 +17,7 @@ COPY ./frontend .
 
 RUN npm install
 
-RUN npm run build:back4app
+RUN npm run build:${ANGULAR_ENV}
 
 #################### BACKEND STAGE 1 ######################################################
 FROM maven:3.9.4-eclipse-temurin-17-alpine as build
@@ -54,11 +58,15 @@ ARG PSQL_USR
 
 ARG PSQL_DB
 
+ARG SPRING_PROFILE
+
 ENV PSQL_DB=$PSQL_DB
 
 ENV PSQL_PWD=$PSQL_PWD
 
 ENV PSQL_USR=$PSQL_USR
+
+ENV SPRING_PROFILE=$SPRING_PROFILE
 
 RUN apk cache clean
 
@@ -96,14 +104,10 @@ RUN initdb /var/lib/postgresql/data && \
     psql -U postgres --command "CREATE USER ${PSQL_USR} WITH SUPERUSER PASSWORD '${PSQL_PWD}';" && \
     createdb -O ${PSQL_USR} ${PSQL_DB}
 
-EXPOSE 5432
-
 USER root
 
 WORKDIR /application
 
 COPY --from=buildbackend /application /application
 
-EXPOSE 8080
-
-CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data restart";runuser -l root -c "cd /application && java -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} -Dspring.datasource.username=${PSQL_USR} -Dspring.datasource.password=${PSQL_PWD} org.springframework.boot.loader.JarLauncher"
+CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data restart";runuser -l root -c "cd /application && java -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} -Dspring.datasource.username=${PSQL_USR} -Dspring.datasource.password=${PSQL_PWD} -Dspring.profiles.active=${SPRING_PROFILE} org.springframework.boot.loader.JarLauncher"
