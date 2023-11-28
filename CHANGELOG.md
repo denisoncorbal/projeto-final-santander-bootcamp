@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v2.2.0...v2.3.0) (2023-11-28)
+
+
+### Features
+
+* added profiles on project ([251bcfa](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/251bcfa2bb2ab226d0b7c98fc43ca70647db2faa))
+* **back:** added csp header ([60f7615](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/60f7615b59e2ff8fa17f570401cbc4ccd922ce78))
+* **front:** added basic input validation ([9932093](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/993209395ffdae4f7f08ab57e00b07c19e1656ac))
+* **front:** added csp header ([f39e9d8](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/f39e9d8126dc0ef5c5de200bdb4517bf0e4dafb9))
+
+
+### Bug Fixes
+
+* **back:** minor fix on scheduled log ([12d1764](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/12d1764767bf6968913f48b14c1123389e3dda43))
+* **back:** minor fixes for production ([0703d04](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/0703d04aecca24c544b1f4c1414514b6d0166c24))
+* **back:** upgraded spring boot to 3.2.0 ([202c404](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/202c4049fdede9c9a7181b7dbd85de90ed6c6127))
+* fix on path discovery ([4b7113d](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/4b7113dc3a6e105deddb11e8630c027fcce2a548))
+* **front:** env dev angular ([7234f18](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/7234f186646cd2f75ed3e948bcf31058ef891d2d))
+* **front:** fix log level to deploy ([b13b198](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/b13b1980a15011b8314d638d98f181f1a3279742))
+* **front:** fix to reset form after try ([d96ea90](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/d96ea9060fc04e0636e8a73e27ff30fe164e2772))
+* **front:** improved scp rules ([641fbe2](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/641fbe2054a5f508a852b150112181711b6f1302))
+* **front:** minor fixes on forms ([40113ba](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/40113ba921cbd2eda9f0b2c5a66313eafdf86142))
+* **front:** update log level with profile config ([dd39cf7](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/dd39cf7c0663ff90116758e382d18a7a8794074a))
+* update csp to header response ([8617e89](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/8617e89dbc891ee15fa242e3ab1697ec1b994aec))
+* update gitignore ([04f25cb](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/commit/04f25cb1dda3a25b2e8d3ce45406d03898c03d87))
+
 ## [2.2.0](https://github.com/denisoncorbal/projeto-final-santander-bootcamp/compare/v2.1.0...v2.2.0) (2023-11-13)
 
 
