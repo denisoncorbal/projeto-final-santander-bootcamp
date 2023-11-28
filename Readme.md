@@ -12,11 +12,15 @@ The deploy was made on the [Back4App](https://back4app.com) platform.
 - [x] Login and create and display data by user
 - [x] Add class to categorize transactions
 - [x] Jwt token (acces and refresh)
-- [x] Add backend api documentation with swagger
+- [x] Backend api documentation with swagger
+- [x] CSP policy
+- [x] Input validation (frontend)
 ## Enhacements
 - [ ] Improve precision on money representation
+- [ ] Add rate-limit
+- [ ] Add cache
 - [ ] Add history by class
-- [ ] Improve security (sanitize inputs)
+- [ ] Input validation (backend)
 - [ ] Add error treatment on frontend and backend
 - [ ] Add tests
 - [ ] Improve performance (sql queries, page loading)
