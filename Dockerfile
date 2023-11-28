@@ -110,4 +110,6 @@ WORKDIR /application
 
 COPY --from=buildbackend /application /application
 
+EXPOSE 8080
+
 CMD runuser -l postgres -c "pg_ctl -U $PSQL_USR -D /var/lib/postgresql/data restart";runuser -l root -c "cd /application && java -XX:TieredStopAtLevel=1 -Dspring.main.lazy-initialization=true -Dspring.datasource.url=jdbc:postgresql://localhost:5432/${PSQL_DB} -Dspring.datasource.username=${PSQL_USR} -Dspring.datasource.password=${PSQL_PWD} -Dspring.profiles.active=${SPRING_PROFILE} org.springframework.boot.loader.launch.JarLauncher"
