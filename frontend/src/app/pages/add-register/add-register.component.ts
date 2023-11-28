@@ -50,8 +50,9 @@ export class AddRegisterComponent implements OnInit {
     this.backendService.createRegister(register).subscribe({
       next: (value) => {
         this.backendService.associateRegister(value.id!, this.authenticationService.getActualEmail(), this.formAddRegister.controls.registerClassName.value!.name!).subscribe({
-          next: ()=>{this.showMessage('success')},
-          error: ()=>{this.showMessage('failure')}
+          next: () => { this.showMessage('success') },
+          error: () => { this.showMessage('failure') },
+          complete: () => { this.formAddRegister.reset() }
         });
       }
     });

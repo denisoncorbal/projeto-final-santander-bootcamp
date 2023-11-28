@@ -40,6 +40,7 @@ export class AddClassComponent {
         this.backendService.associateClass(value.id!, this.authenticationService.getActualEmail()).subscribe({
           next: () => { this.showMessage('success')},
           error: ()=>{this.showMessage('failure')},
+          complete: ()=>{this.formAddClass.reset()}
         });
       }
     });
