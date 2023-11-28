@@ -46,7 +46,8 @@ public class SecurityConfiguration {
 			"/*.html",
 			"/*.js",
 			"/*.css",
-			"/*.ico"
+			"/*.ico",
+			"/"
 	};
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
