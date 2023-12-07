@@ -15,9 +15,9 @@ export class IncomeHistoryComponent {
   incomeValue: number = 0.0;
 
   ngOnInit(): void {
-      this.backendService.readRegistersByUser(this.authenticationService.getActualEmail()).subscribe({
+      this.backendService.readRegistersByUserAndType(this.authenticationService.getActualEmail(), 'INCOME').subscribe({
         next: (value)=>{
-          this.registers = value.filter((value)=>value.type=='INCOME');
+          this.registers = value;
           this.calculeteAllBalances();
         }
       })

@@ -15,9 +15,9 @@ export class OutcomeHistoryComponent {
   outcomeValue: number = 0.0;
 
   ngOnInit(): void {
-      this.backendService.readRegistersByUser(this.authenticationService.getActualEmail()).subscribe({
+      this.backendService.readRegistersByUserAndType(this.authenticationService.getActualEmail(), 'OUTCOME').subscribe({
         next: (value)=>{
-          this.registers = value.filter((value)=>value.type=='OUTCOME');
+          this.registers = value;
           this.calculeteAllBalances();
         }
       })

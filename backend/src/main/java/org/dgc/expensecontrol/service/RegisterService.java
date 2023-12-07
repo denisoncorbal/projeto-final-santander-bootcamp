@@ -11,7 +11,7 @@ public class RegisterService {
 
     private RegisterRepository registerRepository;
 
-    public RegisterService(RegisterRepository registerRepository){
+    public RegisterService(RegisterRepository registerRepository) {
         this.registerRepository = registerRepository;
     }
 
@@ -35,8 +35,12 @@ public class RegisterService {
         registerRepository.deleteById(id);
     }
 
-    public List<Register> readRegistersByUser(String userEmail){
+    public List<Register> readRegistersByUser(String userEmail) {
         return registerRepository.findAllByRegisterUser_Email(userEmail);
     }
-    
+
+    public List<Register> readRegistersByUserAndType(String userEmail, String type) {
+        return registerRepository.findAllByRegisterUser_EmailAndType(userEmail, type);
+    }
+
 }

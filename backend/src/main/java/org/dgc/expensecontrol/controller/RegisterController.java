@@ -60,6 +60,16 @@ public class RegisterController {
         return ResponseEntity.ok(registerService.readRegistersByUser(userEmail));
     }
 
+    @Operation(summary = "Read a register from database by email from its user")
+    @ApiResponses(@ApiResponse(responseCode = "200", description = "The reading process was a success and the register object is on the body", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = Register.class))
+    }))
+    @GetMapping("/{userEmail}/{type}")
+    public ResponseEntity<List<Register>> readRegistersByUserAndType(@PathVariable(name = "userEmail") String userEmail,
+            @PathVariable(name = "type") String type) {
+        return ResponseEntity.ok(registerService.readRegistersByUserAndType(userEmail, type));
+    }
+
     // update
     @Operation(summary = "Update a register by its id", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Register object with updated information", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Register.class))))
     @ApiResponses(@ApiResponse(responseCode = "200", description = "The updating process was a success and the register object updated is on the body", content = {

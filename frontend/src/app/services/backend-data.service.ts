@@ -51,6 +51,9 @@ export class BackendDataService {
   readRegistersByUser(userEmail: string) {
     return this.http.get<Register[]>(BackendRoutes.REGISTER + "/" + userEmail);
   }
+  readRegistersByUserAndType(userEmail: string, type: string) {
+    return this.http.get<Register[]>(BackendRoutes.REGISTER + "/" + userEmail + "/" + type);
+  }
   // update
   updateRegister(id: number, register: Register) {
     return this.http.put<Register>(BackendRoutes.REGISTER + "/" + id, JSON.stringify(register), this.httpOptions);
