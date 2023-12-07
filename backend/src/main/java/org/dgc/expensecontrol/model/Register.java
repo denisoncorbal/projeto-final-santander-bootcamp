@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Register {    
+public class Register {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +18,8 @@ public class Register {
 
     private LocalDate date;
 
-    private Double registerValue;    
-    
+    private Double registerValue;
+
     private String type;
 
     @ManyToOne(fetch = FetchType.EAGER)

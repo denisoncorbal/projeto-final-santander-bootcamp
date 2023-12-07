@@ -11,27 +11,32 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "uk_class_name_user", columnNames = {
+        "name",
+        "registerUser_id"
+}), indexes = {
+        @Index(name = "idx_class_name", columnList = "name")
+})
 public class RegisterClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true)
+    @Column(length = 50)
     private String name;
 
-    @OneToMany(
-        mappedBy = "registerClass",
-        fetch = FetchType.LAZY,
-        orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "registerClass", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private Set<Register> registers = new HashSet<Register>();
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RegisterUser registerUser;
 
     public RegisterClass() {
@@ -67,12 +72,12 @@ public class RegisterClass {
         this.registers = transactions;
     }
 
-    public void addRegister(Register transaction){
+    public void addRegister(Register transaction) {
         registers.add(transaction);
         transaction.setRegisterClass(this);
     }
 
-    public void removeRegister(Register transaction){
+    public void removeRegister(Register transaction) {
         registers.remove(transaction);
         transaction.setRegisterClass(null);
     }

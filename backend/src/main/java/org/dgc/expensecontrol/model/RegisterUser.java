@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.dgc.expensecontrol.security.jwt.role.Role;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,10 +28,16 @@ public class RegisterUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 50)
     private String firstName;
+
+    @Column(length = 50)
     private String lastName;
-    @Column(unique = true)
+
+    @NaturalId
     private String email;
+
+    @Column(length = 12)
     private String password;
 
     @OneToMany(mappedBy = "registerUser", cascade = CascadeType.ALL, orphanRemoval = true)

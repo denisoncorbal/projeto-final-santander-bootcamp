@@ -1,6 +1,7 @@
 package org.dgc.expensecontrol.security.jwt.token;
 
 import org.dgc.expensecontrol.model.RegisterUser;
+import org.hibernate.annotations.NaturalId;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +20,8 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true, columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
+    @NaturalId
     private String token;
 
     @Enumerated(EnumType.STRING)
